@@ -19,6 +19,7 @@ module.exports = {
             <h1>Explanation:</h1>
             <p><a href="/hello?name=John">/hello?name=John</a> - Replies with "Hello, John!"</p>
             <p><a href="/hello?name=Elanore">/hello?name=Elanore</a> - Replies with a short intro of myself</p>
+            <p><a href="/hello?name=Noe">/hello?name=Noe</a> - Replies with a short intro of myself</p>
             <p><a href="/hello?test">/hello?test</a> - Any other path replies with a 404 code and a "Not Found" message.</p>
             `;
             res.end(explanation);
@@ -29,6 +30,8 @@ module.exports = {
                 //My name => hello + short itroduction
                 res.write('Hello Guys, I am Elanore Lelievre, a 4th year student at the ECE school ') 
                 res.write('<p>I am 20 and I love node.js<p>') 
+            }else if(params['name']=='Noe'){
+                res.write('Hello , my name is Noé , I am 20 years old , i like playing video games and watching movies!')
             }else{
                 //Just saying hello name
                res.write('Hello ' + params['name']) 
