@@ -17,19 +17,21 @@ module.exports = {
             //explaining how /hello works
             const explanation = `
             <h1>Explanation:</h1>
-            <p><a href="John">John</a> - Replies with "Hello, John!"</p>
-            <p><a href="Elanore">Elanore</a> - Replies with a short intro of Elanore</p>
-            <p><a href="Solveig">Solveig</a> - Replies with a short intro of Solveig</p>
-            <p><a href="test">test</a> - Any other path replies with a 404 code and a "Not Found" message.</p>
+            <p><a href="/hello?name=John">/hello?name=John</a> - Replies with "Hello, John!"</p>
+            <p><a href="/hello?name=Elanore">/hello?name=Elanore</a> - Replies with a short intro of Elanore</p>
+            <p><a href="/hello?name=Noe">/hello?name=Noe</a> - Replies with a short intro of Noe</p>
+            <p><a href="/hello?name=Solveig">/hello?name=Solveig</a> - Replies with a short intro of Solveig</p>
+            <p><a href="/hello?test">/hello?test</a> - Any other path replies with a 404 code and a "Not Found" message.</p>
             `;
             res.end(explanation);
-        }else if (pathname === '/hello' && 'name' in params) {
-            
+        }else if (pathname === '/hello' && 'name' in params) {            
             res.writeHead(200, {'Content-Type': 'text/html'})
             if(params['name']=='Elanore'){
                 //My name => hello + short itroduction
                 res.write('Hello Guys, I am Elanore Lelievre, a 4th year student at the ECE school ') 
                 res.write('<p>I am 20 and I love node.js<p>') 
+            }else if(params['name']=='Noe'){
+                res.write('Hello , my name is Noe , I am 20 years old , i like playing video games and watching movies!')
             }else if(params['name']=='Solveig'){
             res.write('I am Solveig Berling, also a 4th year student at ECE') 
             res.write('<p>I am 20 and I am fond WebTech<p>')
@@ -45,9 +47,8 @@ module.exports = {
             // Check if the about.json file exists
             fs.access(aboutPath, fs.constants.F_OK, (err) => {
                 if (err) {
-                    // If the file doesn't exist
-                    res.writeHead(404, { 'Content-Type': 'text/plain' });
-                    res.write('Not Found');
+                 res.sendStatus(404);
+                // res.write('Not Found');
                     res.end();
                 } else {
                     // If the file exists, read and send its content as JSON
@@ -65,8 +66,7 @@ module.exports = {
             });
         }else {
             //EREOR MESSAGE
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.write('Not Found');
+            res.sendStatus(404);
             res.end();
         }
         
