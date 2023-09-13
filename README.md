@@ -23,4 +23,4 @@ The aim of this application is to provide 3 routes :
 
 ## Name
 
-Elanore Lelièvre
+Elanore Lelièvre, Solveig Berling, Noé Pham

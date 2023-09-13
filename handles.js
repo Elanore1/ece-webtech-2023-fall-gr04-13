@@ -18,7 +18,8 @@ module.exports = {
             const explanation = `
             <h1>Explanation:</h1>
             <p><a href="/hello?name=John">/hello?name=John</a> - Replies with "Hello, John!"</p>
-            <p><a href="/hello?name=Elanore">/hello?name=Elanore</a> - Replies with a short intro of myself</p>
+            <p><a href="/hello?name=Elanore">/hello?name=Elanore</a> - Replies with a short intro of Elanore</p>
+            <p><a href="/hello?name=Solveig">/hello?name=Solveig</a> - Replies with a short intro of Solveig</p>
             <p><a href="/hello?test">/hello?test</a> - Any other path replies with a 404 code and a "Not Found" message.</p>
             `;
             res.end(explanation);
@@ -29,7 +30,11 @@ module.exports = {
                 //My name => hello + short itroduction
                 res.write('Hello Guys, I am Elanore Lelievre, a 4th year student at the ECE school ') 
                 res.write('<p>I am 20 and I love node.js<p>') 
-            }else{
+            }else if(params['name']=='Solveig')
+            res.write('I am Solveig Berling, also a 4th year student at ECE') 
+            res.write('<p>I am 20 and I am fond WebTech<p>')
+            }
+            else{
                 //Just saying hello name
                res.write('Hello ' + params['name']) 
             }
