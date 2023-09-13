@@ -31,7 +31,7 @@ module.exports = {
                 res.write('Hello Guys, I am Elanore Lelievre, a 4th year student at the ECE school ') 
                 res.write('<p>I am 20 and I love node.js<p>') 
             }else if(params['name']=='Noe'){
-                res.write('Hello , my name is Noé , I am 20 years old , i like playing video games and watching movies!')
+                res.write('Hello , my name is Noe , I am 20 years old , i like playing video games and watching movies!')
             }else{
                 //Just saying hello name
                res.write('Hello ' + params['name']) 
@@ -44,9 +44,8 @@ module.exports = {
             // Check if the about.json file exists
             fs.access(aboutPath, fs.constants.F_OK, (err) => {
                 if (err) {
-                    // If the file doesn't exist
-                    res.writeHead(404, { 'Content-Type': 'text/plain' });
-                    res.write('Not Found');
+                 res.sendStatus(404);
+                // res.write('Not Found');
                     res.end();
                 } else {
                     // If the file exists, read and send its content as JSON
@@ -64,8 +63,7 @@ module.exports = {
             });
         }else {
             //EREOR MESSAGE
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.write('Not Found');
+            res.sendStatus(404);
             res.end();
         }
         
