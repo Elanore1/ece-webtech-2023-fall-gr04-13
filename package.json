@@ -1,12 +1,12 @@
 {
-  "name": "ece-webtech-groupname",
+  "name": "ece-webtech-2023-fall-gr04-13",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev":"nodemon index.js"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
