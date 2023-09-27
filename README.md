@@ -17,7 +17,7 @@ The 'dev' function opens the index.js file using nodemon to avoid restarting the
 
 The aim of this application is to provide 3 routes :
 - '/' explains how '/hello' works
-- '/hello' takes a name as a query parameter and displays Hello [name] for unknown names and my name with a short introduction if it's my name.
+- '/hello' takes a name as a query parameter and displays Hello [name] for unknown names and my name with a short introduction if it's one of those name : Solveig, Noe, Elanore.
 - '/about' displays the contents of the about.json file in the content folder.
 - Any other path returns a 404 error with a not found message.
 
