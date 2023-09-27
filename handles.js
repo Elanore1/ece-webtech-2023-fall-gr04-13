@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
     <h1>Explanation:</h1>
     <p><a href="/hello?name=John">John</a> - Replies with "Hello, John!"</p>
     <p><a href="/hello?name=Elanore">Elanore</a> - Replies with a short intro of Elanore</p>
-    <p><a href="/hello?name=Noe">/hello?name=Noe</a> - Replies with a short intro of Noe</p>
+    <p><a href="/hello?name=Noe">Noe</a> - Replies with a short intro of Noe</p>
     <p><a href="/hello?name=Solveig">Solveig</a> - Replies with a short intro of Solveig</p>
     <p><a href="/test">test</a> - Any other path replies with a 404 code and a "Not Found" message.</p>
   `);
@@ -25,10 +25,12 @@ app.get('/hello', (req, res) => {
 
   if (name === 'Elanore') {
     res.status(200).send('Hello Guys, I am Elanore Lelievre, a 4th year student at the ECE school\nI am 20 and I love node.js');
-  }else if(params['name']=='Noe'){
-    res.write('Hello , my name is Noe , I am 20 years old , i like playing video games and watching movies!')
-  }else if (name === 'Solveig') {
+  } else if (name === 'Solveig') {
     res.status(200).send('I am Solveig Berling, also a 4th year student at ECE\nI am 20 and I am fond of WebTech');
+  } else if (name === 'Noe') {
+    res.status(200).send('Hello, I am Noé, I love watching films and playing video games');
+  } else if (name === 'John') {
+    res.status(200).send('Hello John');
   } else {
     res.status(200).send(`Hello ${name}`);
   }
