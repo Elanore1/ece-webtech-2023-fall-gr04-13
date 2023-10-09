@@ -1,7 +1,11 @@
-// Import a module
-const http = require('http')
-const handles = require('./handles')
+const express = require('express');
+const app = express();
+const handles = require('./handles'); // Import your handles.js module
 
-http
-.createServer(handles.serverHandle)
-.listen(8080)
+// Use the Express application defined in handles.js
+app.use(handles.serverHandle);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
