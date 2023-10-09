@@ -61,5 +61,5 @@ http://localhost:8080/articles/6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b/comments/207
 
 ## Name
 
-Elanore Lelièvre
+Elanore Lelièvre, Solveig Berling, Noé Pham
 
