@@ -7,7 +7,6 @@ const qs = require('querystring');
 const fs = require('fs');
 const path = require('path');
 
-
 // Define a route for the root path
 app.get('/', (req, res) => {
   res.status(200).send(`
