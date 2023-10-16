@@ -1,4 +1,3 @@
-
 import styles from '../styles/Layout.module.css'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -8,10 +7,12 @@ export default function Header(){
     <header className={styles.header}>
       <div className={styles.logo}>
         <Link href={`/`}>
-          <Image src="/adaltas.svg" alt="Adaltas Logo" width={25} height={25} />
-          <span>
-            Web technologies
-          </span>
+          <Image
+            src="/logo.png"
+            alt="Mystore Logo"
+            width={70}
+            height={70}
+          />
         </Link>
       </div>
       <ul className={styles.menu}>
