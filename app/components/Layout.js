@@ -1,12 +1,12 @@
-import Header from '../components/Header.js'
+import Header from './Header.js'
 import Footer from '../components/Footer.js'
-import styles from '../styles/Layout.module.css'
-
+//container div 
+//main style main
 export default function Layout({children}){
   return (
-    <div className={styles.container}>
-      <Header />
-      <main className={styles.main}>
+    <div className="p-0">
+      <Header/>
+      <main className="min-h-screen p-16 md:p-16 lg:p-16 bg-whiteSpecial">
         {children}
       </main>
       <Footer />

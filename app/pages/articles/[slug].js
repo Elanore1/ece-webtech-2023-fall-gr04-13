@@ -17,7 +17,7 @@ export default function Page({
       <h1>
         {article.title}
       </h1>
-      <p style={{fontStyle: 'italic'}}>Welcome Here, You can found all the articles of the Store</p>
+      <p className='italic font-bold'>Welcome Here, You can found all the articles of the Store</p>
       <p>
         {article.description}
       </p>
