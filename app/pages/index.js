@@ -12,31 +12,41 @@ export default function Page() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div >
-        <h1 className='wt-title text-darkblue'>
-          Welcome to our Online<a href="https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13">Web Store !</a>
-          <br></br><br></br>
+        <h1 className='wt-title text-darkblue text-center'>
+          <a href="https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13">Welcome to our Online Web Store !</a>
         </h1>
-        <video height="300" width="300" autoPlay loop muted>
+        <video className='mx-auto max-w-md' height="300" width="300" autoPlay loop muted>
           <source src="/logoAnimated.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <ul>
-          <li>
+        <br></br><br></br>
+        <div className='font-bold text-6xl text-darkblue text-center'>
+          New arrivals are here
+        </div>
+        <br></br><br></br>
+        <div class="grid grid-rows-3 grid-flow-col gap-4 text-center text-white text-shadow-blue">
+          <div class="row-start-2 row-span-2 font-bold bg-blueEce rounded-md p-8 hover:bg-darkblue">
             <Link href="/articles">
               Our Clothes ➔
             </Link>
-          </li>
-          <li>
+          </div>
+          <div class="row-end-3 row-span-2 font-bold bg-blueEce rounded-md p-8 hover:bg-darkblue">
             <Link href="/about">
               About us ➔
             </Link>
-          </li>
-          <li>
+          </div>
+          <div class="flex items-center justify-center font-bold row-start-1 row-end-4 bg-blueEce rounded-md p-8 hover:bg-darkblue">
             <Link href="/contacts">
               Contact us ➔
             </Link>
-          </li>
-        </ul>
+          </div>
+        </div>
+        <br></br><br></br>
+        <div className='font-bold text-md text-darkblue text-center'>
+          On the Mystore site, you can find our selection of clothes, shoes, jackets and accessories.<br></br>
+          The content is updated regularly, so don't hesitate if you're looking for new items at the best prices!<br></br>
+          The entire MyStore team is available to answer any questions or problems you may have in the contact section.
+        </div>
       </div>
     </Layout>
   )
