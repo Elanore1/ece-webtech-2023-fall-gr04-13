@@ -20,10 +20,6 @@ export default function Page() {
           Your browser does not support the video tag.
         </video>
         <br></br><br></br>
-        <div className='font-bold text-6xl text-darkblue text-center'>
-          New arrivals are here
-        </div>
-        <br></br><br></br>
         <div class="grid grid-rows-3 grid-flow-col gap-4 text-center text-white text-shadow-blue">
           <div class="row-start-2 row-span-2 font-bold bg-blueEce rounded-md p-8 hover:bg-darkblue">
             <Link href="/articles">
@@ -41,11 +37,31 @@ export default function Page() {
             </Link>
           </div>
         </div>
-        <br></br><br></br>
-        <div className='font-bold text-md text-darkblue text-center'>
-          On the Mystore site, you can find our selection of clothes, shoes, jackets and accessories.<br></br>
-          The content is updated regularly, so don't hesitate if you're looking for new items at the best prices!<br></br>
-          The entire MyStore team is available to answer any questions or problems you may have in the contact section.
+        <div class="bg-white">
+          <div class="mx-auto max-w py-24 sm:px-6 sm:py-32 lg:px-8">
+            <div class="relative isolate overflow-hidden bg-darkblue px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+              <svg viewBox="0 0 1024 1024" class="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0" aria-hidden="true">
+                <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
+                <defs>
+                  <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">
+                    <stop stop-color="#007179" />
+                    <stop offset="1" stop-color="#007179" />
+                  </radialGradient>
+                </defs>
+              </svg>
+              <div class="mx-auto text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
+                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Boost your Style.<br />Start using our app today.</h2>
+                <p class="mt-6 text-lg leading-8 text-gray-300">On the Mystore site, you can find our selection of clothes, shoes, jackets and accessories.<br></br>
+                  The content is updated regularly, so don't hesitate if you're looking for new items at the best prices!<br></br>
+                  The entire MyStore team is available to answer any questions or problems you may have in the contact section.
+                </p>
+                <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
+                  <a href="/articles" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</a>
+                  <a href="/about" class="text-sm font-semibold leading-6 text-white">Learn more <span aria-hidden="true">→</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>

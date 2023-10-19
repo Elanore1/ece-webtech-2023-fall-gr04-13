@@ -24,6 +24,7 @@ module.exports = {
         white: '#FFFFFF',
         whiteSpecial: '#f4fefe',
         darkblue: '#0e254a',
+        blueEce: '#007179',
       },
       border:{
         white: '#FFFFFF',
@@ -38,7 +39,10 @@ module.exports = {
       },
       borderRadius: {
         '4xl': '2rem',
-      }
+      },
+      borderColor: {
+        blueEce: '#007179', // Remplacez cette valeur par la couleur que vous souhaitez
+      },
     }
   },
   plugins: [

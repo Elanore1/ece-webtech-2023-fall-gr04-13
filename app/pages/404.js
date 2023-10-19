@@ -6,18 +6,17 @@ import Layout from '../components/Layout.js';
 
 function Custom404() {
   return (
-    <Layout>
-      <Head>
-          <title>404 - NOT FOUND</title>
-          <meta name="description" content="Don't be shy, drop us an email" />
-          <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div>
-        <h1 className='wt-title text-darkblue'>404 - Page Not Found</h1>
-        <p>The page you're looking for does not exist.</p>
-        <p><Link href="/">Return to Home</Link></p>
+    <main class="grid min-h-screen place-items-center bg-whiteSpecial px-6 py-24 sm:py-32 lg:px-8">
+      <div class="text-center">
+        <p class="text-base font-semibold text-blueEce text-4xl">404</p>
+        <h1 class="mt-4 text-3xl font-bold tracking-tight text-darkblue sm:text-5xl">Page not found</h1>
+        <p class="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
+        <div class="mt-10 flex items-center justify-center gap-x-6">
+          <a href="/" class="rounded-md bg-blueEce px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go back home</a>
+          <a href="/contacts" class="text-sm font-semibold text-darkblue">Contact support <span aria-hidden="true">&rarr;</span></a>
+        </div>
       </div>
-    </Layout>
+    </main>
   );
 }
 
