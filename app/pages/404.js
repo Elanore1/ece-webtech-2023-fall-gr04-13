@@ -13,7 +13,7 @@ function Custom404() {
           <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h1>404 - Page Not Found</h1>
+        <h1 className='wt-title text-darkblue'>404 - Page Not Found</h1>
         <p>The page you're looking for does not exist.</p>
         <p><Link href="/">Return to Home</Link></p>
       </div>

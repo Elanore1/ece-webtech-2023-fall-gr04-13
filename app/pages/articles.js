@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-//import styles from '../styles/Layout.module.css'
+
 
 export default function Page() {
   const [articles, setArticles] = useState([])
@@ -15,6 +15,7 @@ export default function Page() {
     }
     fetchData()
   }, [])
+
   return (
     <Layout>
       <Head>
@@ -23,23 +24,33 @@ export default function Page() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h1>
+        <h1 className='wt-title text-darkblue'>
           MyStore Articles
         </h1>
-        <p class="italic font-bold">Welcome Here, You can found all the articles of the Store<br></br></p>
-        <ul>
-          {articles.map( article => (
-            <div >
-              <li key={article.slug}>
-                <h2 ><Link href={`/api/articles/${article.slug}`}>{article.title}</Link></h2>
-                <p >{article.description}</p>
-                <p >Price : {article.price}</p>
-                <p >Size : {article.size}</p>
-              </li>
-              <img width={140} src={article.urlArticle} alt={`Image de ${article.title}`} />
-            </div>
+        <p class="italic font-bold text-darkblue">Welcome Here, You can found all the articles of the Store</p>
+        <br></br>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+          {articles.map( article =>(
+            <a href={`/api/articles/${article.slug}`} class="flex flex-col bg-blueEce drop-shadow hover:drop-shadow-lg hover:opacity-80 rounded-md">
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src={article.urlArticle}
+                    alt={`Image de ${article.title}`}
+                    className="h-full w-full object-cover object-top rounded-tl-md rounded-tr-md"
+                  />
+                </div>
+                <div class="px-3 py-2">
+                    <h1 class="font-bold text-xl text-white text-center font-serif text-shadow-blue"><Link href={`/api/articles/${article.slug}`}>{article.title}</Link></h1>
+                    <p class="text-white text-shadow-blue text-sm italic flex items-center justify-between">
+                      <span>{article.price}</span>
+                      <span className="ml-auto">Size: {article.size}</span>
+                    </p>
+                    <br></br>
+                    <p class="text-white text-shadow-blue text-sm italic">{article.description}</p>
+                </div>
+            </a>
           ))}
-        </ul>
       </div>
     </Layout>
   )

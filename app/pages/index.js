@@ -12,7 +12,7 @@ export default function Page() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div >
-        <h1>
+        <h1 className='wt-title text-darkblue'>
           Welcome to our Online<a href="https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13">Web Store !</a>
           <br></br><br></br>
         </h1>

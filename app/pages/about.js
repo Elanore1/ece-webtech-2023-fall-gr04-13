@@ -12,7 +12,7 @@ export default function Page() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h1> About us </h1>
+        <h1 className='wt-title text-darkblue'> About us </h1>
         <p><a href="/hello?name=John">Testing with a general name</a></p>
         <p><a href="/hello?name=Elanore">Elanore</a></p>
         <p><a href="/hello?name=Noe">Noé</a></p>

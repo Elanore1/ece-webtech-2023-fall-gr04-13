@@ -29,3 +29,13 @@ body {
 .custom-shadow {
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.7);
 }
+
+.wt-title {
+  @apply text-3xl font-bold underline mb-10;
+}
+
+@layer utilities {
+  .text-shadow-blue {
+    text-shadow: 6px 6px 4px rgba(14, 37, 74, 0.4);
+  }
+}

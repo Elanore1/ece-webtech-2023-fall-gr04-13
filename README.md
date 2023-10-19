@@ -1,10 +1,10 @@
-# ECE Web Technologies LAB4
+# ECE Web Technologies LAB5
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Introduction
 
-Creation of a web application 'MyStore' as next.js application. 
+We are going to initialize Tailwind CSS inside our Next.js application.Tailwind CSS is a utility-first CSS framework designed to enable users to create applications faster and easier. You can use utility classes to control the layout, color, spacing, typography, shadows, and more to create a completely custom component design — without leaving your HTML or writing a single line of custom CSS.
 
 ## Running/Usage instruction
 

@@ -21,7 +21,7 @@ function NamePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div >
-        <h1>{content.title}</h1>
+        <h1 className='wt-title text-darkblue'>{content.title}</h1>
         <p>{content.description}</p>
       </div>
     </Layout>
