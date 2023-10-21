@@ -12,8 +12,8 @@ function Custom404() {
         <h1 class="mt-4 text-3xl font-bold tracking-tight text-darkblue sm:text-5xl">Page not found</h1>
         <p class="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
-          <a href="/" class="rounded-md bg-blueEce px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go back home</a>
-          <a href="/contacts" class="text-sm font-semibold text-darkblue">Contact support <span aria-hidden="true">&rarr;</span></a>
+          <Link href="/" class="rounded-md bg-blueEce px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go back home</Link>
+          <Link href="/contacts" class="text-sm font-semibold text-darkblue">Contact support <span aria-hidden="true">&rarr;</span></Link>
         </div>
       </div>
     </main>

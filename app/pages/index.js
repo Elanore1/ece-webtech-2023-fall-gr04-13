@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-//import styles from '../styles/Layout.module.css'
 
 export default function Page() {
   return (
@@ -13,7 +12,7 @@ export default function Page() {
       </Head>
       <div >
         <h1 className='wt-title text-darkblue text-center'>
-          <a href="https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13">Welcome to our Online Web Store !</a>
+          <Link href="https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13">Welcome to our Online Web Store !</Link>
         </h1>
         <video className='mx-auto max-w-md' height="300" width="300" autoPlay loop muted>
           <source src="/logoAnimated.mp4" type="video/mp4" />
@@ -56,8 +55,8 @@ export default function Page() {
                   The entire MyStore team is available to answer any questions or problems you may have in the contact section.
                 </p>
                 <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                  <a href="/articles" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</a>
-                  <a href="/about" class="text-sm font-semibold leading-6 text-white">Learn more <span aria-hidden="true">→</span></a>
+                  <Link href="/articles" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</Link>
+                  <Link href="/about" class="text-sm font-semibold leading-6 text-white">Learn more <span aria-hidden="true">→</span></Link>
                 </div>
               </div>
             </div>
