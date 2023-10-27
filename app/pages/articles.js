@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-import { db } from './api/articles.js'
 
 export async function getStaticProps(){
-  //const res = await fetch(`http://localhost:3000/api/articles/`);
-  //const articles = await res.json()
+  const res = await fetch(`http://localhost:3000/api/articles/`);
+  const articles = await res.json()
 
-  return { props: {articles : db}}
+  return { props: {articles}}
 }
 
 export default function Page({articles}){

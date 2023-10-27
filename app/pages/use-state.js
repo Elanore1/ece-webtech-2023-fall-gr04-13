@@ -5,7 +5,6 @@ import Layout from '../components/Layout.js'
 function Example(){
     //declare a new state variable, wich we'll call "count"
     const [count,setCount] = useState(0);
-
     return (
         <Layout>
         <Head>
@@ -26,8 +25,7 @@ function Example(){
                 Click me
             </button>
         </div>
-    </Layout>
-        
+    </Layout>  
     );
 }
 
