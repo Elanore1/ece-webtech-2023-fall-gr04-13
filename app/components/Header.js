@@ -1,11 +1,12 @@
-import { Fragment, useState,useEffect} from 'react'
+import { Fragment, useState,useEffect,useContext} from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
 import { ChevronDownIcon} from '@heroicons/react/20/solid'
 import Link from 'next/link'
+//User import
+import UserContext from './UserContext'
+import LoggedIn from './LoggedIn'
+import LoggedOut from './LoggedOut'
 
 const products = [
   { name: 'General Name', description: 'Welcome Page for specified name', href: '/hello?name=John'},
@@ -22,45 +23,7 @@ function classNames(...classes) {
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    // call to api profile
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch('/api/profile');
-        if (response.status === 200) {
-          const data = await response.json();
-          setProfile(data);
-        } else if (response.status === 401) {
-          // not connected (HTTP 401)
-          setProfile(null); 
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération du profil :', error);
-        setProfile(null); 
-      }
-    };
-    fetchUserProfile();
-  }, []);
-
-  const handleLogoutClick = () => {
-    setProfile(null); 
-  };
-  const handleLoginClick  = async () => {
-    try {
-      const response = await fetch('/api/profile');
-      if (response.status === 200) {
-        const data = await response.json();
-        setProfile(data);
-      } else if (response.status === 401) {
-        setProfile(null);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération du profil :', error);
-      setProfile(null);
-    }
-  };
+  const {user,login,logout} = useContext(UserContext);
 
   return (
     <header className="bg-blueEce">
@@ -111,46 +74,16 @@ export default function Header() {
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {profile ? (
+          {user ? (
             <div class="flex items-center space-x-4">
               <Popover className="relative">
-                <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                  <img
-                  id="avatarButton"
-                  type="button"
-                  data-dropdown-toggle="userDropdown"
-                  data-dropdown-placement="bottom-start"
-                  src={profile.img}
-                  alt="User dropdown"
-                  className="w-10 h-10 rounded-full cursor-pointer"
-                  />
-                  <div class="font-medium text-white">
-                      <div>{profile.username}</div>
-                      <div class="text-sm text-darkblue">{profile.email}</div>
-                  </div>
-                </Popover.Button>
-                <Transition as={Fragment} enter="transition ease-out duration-200" enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 translate-y-1" >
-                  <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-50 overflow-hidden rounded-3xl bg-whiteSpecial shadow w-44 ring-1 ring-gray-900/5">
-                    <div class="px-4 py-3 text-sm text-blueEce dark:text-white">
-                      <div class="font-bold truncate">{profile.username}</div>
-                      <div class="font-medium truncate">{profile.email}</div>
-                    </div>
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-                      <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-darkblue text-center">Setting</a>
-                      </li>
-                    </ul>
-                    <div class="py-1">
-                      <button onClick={handleLogoutClick} class="w-44 block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-darkblue dark:hover:text-white">Sign out</button>
-                    </div>
-                  </Popover.Panel>
-                </Transition>
+                <LoggedIn />
               </Popover>
             </div>    
           ) : (
-            <button onClick={handleLoginClick}className="text-sm font-semibold leading-6 text-white hover:text-darkblue">
-              Log In →
-            </button>
+            <div>
+              <LoggedOut /> 
+            </div>
           )}
         </div>
       </nav>
@@ -170,40 +103,8 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                {profile ? (
-                  <Disclosure as="div" className="-mx-3">
-                      {({ open }) => (
-                        <>
-                          <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900">
-                            <div  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white flex items-center space-x-4">
-                              <img
-                                id="avatarButton"
-                                type="button"
-                                data-dropdown-toggle="userDropdown"
-                                data-dropdown-placement="bottom-start"
-                                src={profile.img}
-                                alt="User dropdown"
-                                className="w-10 h-10 rounded-full cursor-pointer"
-                              />
-                              <div class="font-medium text-white flex flex-col">
-                                  <div>{profile.username}</div>
-                                  <div class="text-sm text-darkblue">{profile.email}</div>
-                              </div>
-                            </div>
-                          </Disclosure.Button>
-                          <Disclosure.Panel className="mt-2 space-y-2">
-                            <ul class="py-2 text-sm" aria-labelledby="avatarButton">
-                              <li>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:bg-darkblue">Setting</a>
-                              </li>
-                            </ul>
-                            <div class="py-1">
-                              <button onClick={handleLogoutClick} class="text-left w-full block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:bg-darkblue">Sign out</button>
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                {user ? (
+                  <LoggedIn/>
                 ):(
                   <div></div>
                 )}
@@ -240,14 +141,12 @@ export default function Header() {
                 <Link href={`/contacts`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-darkblue">
                     Contact Us
                 </Link>
-                {profile ? (
+                {user ? (
                   <div> </div>
                 ):(
-                  <div class="py-6">
-                  <button onClick={handleLoginClick} className="w-full text-left -mx-3 block rounded-lg px-3 py-2.5 text-white font-semibold leading-7 text-gray-900 hover:bg-darkblue">
-                    Log In →
-                  </button>
-                </div>
+                  <div className="py-6">
+                      <LoggedOut /> 
+                  </div>
                 )}
               </div>
             </div>
