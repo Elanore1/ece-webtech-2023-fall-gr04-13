@@ -1,72 +1,108 @@
-# ECE Web Technologies LAB6
+# ECE Web Technologies LAB7
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Introduction
 
-We use data fetching and rendering with Next.js.
-The use of the appropriate data fetching strategie is key, it impacts include:
-- The performances of your page generation
-- The deployment method
-- The geographical distribution of your data with a CDN
-- Page security, expositing publicly or not some particular URLs
-- User experience
-- Search Engine Optimisation (SEO)
+User local and application state, form manipulation.
+The state is central to any application. The state is shared between the client and the server. 
+- Component state 
+- Form with native elements 
+- Form with controlled elements 
+- Application state with React Context
 
 ## Description
 
-- First, we re-implement the `/pages/articles.js` to use SSG by removing the `useEffect` function and exporting an implementation of  [`getStaticProps`] function (https://nextjs.org/docs/basic-features/data-fetching/get-static-props).
+- Creation of the page at the ["/use-state"](http://localhost:3000/use-state) route with a counter increment when the user click on the button.
+
+- Creation of the page at the ["/login-native"](http://localhost:3000/login-native) route that use a form to login using `FormData` object
+
+- Creation of the page at the ["/login-controlled"](http://localhost:3000/login-controlled) route that use a form to login using `data` object that is updated when the user enter some information inside the form
+
+- Creation of Application state with React Context :
+  
+1) Implementing a UserContext
 
 ```javascript
-export async function getStaticProps(){
-  const res = await fetch(`http://localhost:3000/api/articles/`);
-  const articles = await res.json()
-  return { props: {articles}}
+export default UserContext
+export const UserProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    return (
+      <UserContext.Provider 
+          value={{ 
+              user: user, 
+              login: (user) =>{
+                  setUser(user)
+              }, 
+              logout:() =>{
+                  setUser(null)
+              }
+          }}
+      >
+      {children}
+      </UserContext.Provider>
+  );
 }
 ```
-
-- Now, we are going to create profile API and use it in our Header.
+2) Plug the provider inside _app.js
 
 ```javascript
-  //In pages/api/profile.js
-  useEffect(() => {
-    // call to api profile
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch('/api/profile');
-        if (response.status === 200) {
-          const data = await response.json();
-          setProfile(data);
-        } else if (response.status === 401) {
-          // not connected (HTTP 401)
-          setProfile(null); 
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération du profil :', error);
-        setProfile(null); 
-      }
-    };
-    fetchUserProfile();
-  }, []);
+export default function App({ Component, pageProps }) {
+  return (
+    <UserProvider>
+      <Component {...pageProps} />
+    </UserProvider>
+  )
+}
 ```
-In our Header, we implement inside a `useEffect` React hook a call to fetch the profile. If the user is logged in, the API returns an object with the user's `username` and `email`. In real life, if the user is not logged in, an HTTP error 401 is returned. On success, display an account icon associated with the user's `username`.
+3) Import UserContext in Header.js 
 
 ```javascript
-    //In components/Header
-    <img
-        id="avatarButton"
-        type="button"
-        data-dropdown-toggle="userDropdown"
-        data-dropdown-placement="bottom-start"
-        src={profile.img}
-        alt="User dropdown"
-        className="w-10 h-10 rounded-full cursor-pointer"
-    />
-    <div class="font-medium text-white">
-        <div>{profile.username}</div>
-        <div class="text-sm text-darkblue">{profile.email}</div>
+import UserContext from './UserContext'
+const {user} = useContext(UserContext);
+```
+4) Components LoggedIn and LoggedOut 
+
+LoggedIn.js :
+```javascript
+const LoggedIn = () => {
+    const {user, logout} = useContext(UserContext)
+    const isSmallScreen =  window.innerWidth <= 768
+    const onClickLogout = ()=>{
+        logout()
+    }
+    return (
+        //header styles with user 
+        //access data like this :
+        //{user.img}
+        //with a button to logOut
+        //<button onClick={onClickLogout}>Sign out</button>
+    )
+}
+export default LoggedIn;
+```
+
+LoggedOut.js :
+```javascript
+const LoggedOut = () => {
+  const {login} = useContext(UserContext)
+  const onClickLogin = async () => {
+    const response = await fetch('/api/profile');
+    const user = await response.json();
+    login(user);
+  };
+  return (
+    <div>
+        <button  onClick={onClickLogin} className="text-left -mx-3 block rounded-lg px-3 py-2.5 text-white font-semibold leading-7 text-gray-900 hover:bg-darkblue">
+            Log In →
+        </button>
     </div>
+  )
+}
+export default LoggedOut;
 ```
+
+Now, when navigating across the pages, the `LoggedIn` and `LoggedOut` component states is preserved.
 
 ## Running/Usage instruction
 
@@ -75,13 +111,6 @@ We can run the application with :
 ```bash
 npm run dev
 ```
-
-To build the application :
-
-```bash
-npm run build
-```
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Learn More
