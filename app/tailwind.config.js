@@ -1,4 +1,4 @@
-//@type {import('tailwindcss').Config} 
+/** @type {import('tailwindcss').Config} */
 
 module.exports = {
   content: [
@@ -18,6 +18,13 @@ module.exports = {
         whiteSpecial: '#f4fefe',
         transparent: 'transparent',
         darkblue: '#0e254a',
+        lilaPurple: '#8A2BE2',
+        white: '#FFFFFF',
+        black: '#000000',
+        yellow:'#FFFF00',
+        khaki:'#596643',
+        beige:'#d1af76',
+        grey:'#5d5d5d',
       },
       textColor:{
         black: '#000000',
@@ -25,9 +32,11 @@ module.exports = {
         whiteSpecial: '#f4fefe',
         darkblue: '#0e254a',
         blueEce: '#007179',
+        lilaPurple: '#BF40BF',
       },
       border:{
         white: '#FFFFFF',
+        darkblue: '#0e254a',
       },
       fontFamily:{
         sans:['Graphik','sans-serif'],
@@ -41,8 +50,18 @@ module.exports = {
         '4xl': '2rem',
       },
       borderColor: {
-        blueEce: '#007179', // Remplacez cette valeur par la couleur que vous souhaitez
+        blueEce: '#007179',
+        darkblue: '#0e254a',
       },
+      animation: {
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+      },
+      keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        }
+      }
     }
   },
   plugins: [
