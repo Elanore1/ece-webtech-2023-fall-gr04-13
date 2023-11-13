@@ -9,7 +9,7 @@ export default function Contacts() {
   const supabase = useSupabaseClient()
   useEffect(() => {
     (async () => {
-      let { data, error, status } = await supabase.from('contacts').select(`id, firstname, lastname, email`)
+      let { data, error, status } = await supabase.from('contacts').select(`id, firstname, lastname, email,subject`)
       setContacts(data)
     })()
   }, [])
@@ -21,22 +21,25 @@ export default function Contacts() {
       <h1 className='wt-title text-darkblue text-center'>
         <span>List of contact</span> messages
       </h1>
-      <div className="not-prose -my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="not-prose -my-0 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
             <table className="min-w-full divide-y divide-slate-300">
               <thead className="bg-slate-50">
                 <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6">
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-darkblue sm:pl-6">
                     Firstname
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
                     Lastname
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
                     Email
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
+                    Subject
+                  </th>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
                   </th>
                 </tr>
               </thead>
@@ -46,8 +49,9 @@ export default function Contacts() {
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.firstname}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.lastname}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.email}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.subject}</td>
                     <td>
-                      <Link href={`/admin/contacts/${contact.id}`} className={"w-5 h-5 block bg-slate-200 hover:bg-blue-500 hover:text-white rounded-full"}>
+                      <Link href={`/admin/contacts/${contact.id}`} className={"w-5 h-5 block bg-slate-200 hover:bg-blueEce hover:text-white rounded-full"}>
                           <ChevronRightIcon className="h-5 w-5 " aria-hidden="true" />
                       </Link>
                     </td>

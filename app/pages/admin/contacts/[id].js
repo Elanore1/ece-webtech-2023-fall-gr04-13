@@ -23,17 +23,34 @@ export default function Contacts({id}) {
       </h1>
       {contact && (
         <div className="overflow-hidden divide-y divide-slate-200 shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-          <div className="bg-slate-50">
-            <dl className="grid grid-cols-[auto_1fr] px-3 py-4 [&_dt]:italic [&_dt]:text-slate-500 [&_dt]:pr-3">
-              <dt>Name</dt>
-              <dd>{contact.lastname}, {contact.firstname}</dd>
-              <dt>Email</dt>
-              <dd>{contact.email}</dd>
-            </dl>
-          </div>
-          <div className="px-3 py-10 bg-white">
-            <div dangerouslySetInnerHTML={{ __html: md().render(contact.message)}} />
-          </div>
+            <div className="bg-slate-50">
+                <dl>
+                    { (contact.lastname || contact.firstname) ? (
+                        <div className="grid grid-cols-[auto_1fr] px-3 py-3 [&_dt]:italic [&_dt]:text-slate-500 [&_dt]:pr-3">
+                            <dt>Name :</dt>
+                            <dd>
+                                {contact.lastname && contact.firstname
+                                    ? `${contact.lastname}, ${contact.firstname}`
+                                    : contact.lastname || contact.firstname}
+                            </dd>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-[auto_1fr] px-3 py-3 [&_dt]:italic [&_dt]:text-slate-500 [&_dt]:pr-3"><dt>Anonymous User</dt></div>
+                    )}
+                    <div className="grid grid-cols-[auto_1fr] px-3 py-1 [&_dt]:italic [&_dt]:text-slate-500 [&_dt]:pr-3">
+                        <dt>Email :</dt>
+                        <dd>{contact.email}</dd>
+                    </div>
+                    
+                </dl>
+            </div>
+            <div className="bg-white grid grid-cols-[auto_1fr] px-3 py-2 [&_dt]:italic [&_dt]:text-slate-500 [&_dt]:pr-3">
+                <dt>Subject :</dt>
+                <dd>{contact.subject}</dd>
+            </div>
+            <div className="px-3 py-10 bg-white">
+                <div dangerouslySetInnerHTML={{ __html: md().render(contact.message)}} />
+            </div>
         </div>
       )}
     </Layout>

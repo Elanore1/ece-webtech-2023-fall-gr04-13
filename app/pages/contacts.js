@@ -1,9 +1,57 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Layout from '../components/Layout.js'
-import React from "react";
+import React, { useEffect ,useState } from "react";
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export default function Page() {
+  const supabase = useSupabaseClient()
+  const [contact, setContact] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
+
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setContact({ ...contact, [name]: value })
+  };
+
+  const handleFormSubmit = async (e) =>{
+    e.preventDefault();
+    try{
+      const {data,error}= await supabase.from('contacts').insert({firstname:contact.firstName,lastname:contact.lastName,email:contact.email,subject:contact.subject,message:contact.message})
+      if (error) {
+        console.error('Error inserting contact:', error);
+      } else {
+        console.log('Contact inserted successfully:', data);
+      }
+      setContact({
+        firstName: '',
+        lastName: '',
+        email: '',
+        subject: '',
+        message: '',
+      })
+    }catch (error) {
+      console.error('Network error:', error);
+    }
+    
+  }
+
+  //load contact at the begining
+  useEffect(() =>{
+    setContact({
+      firstName: '',
+      lastName: '',
+      email: '',
+      subject: '',
+      message: '',
+    })
+  },[])
+
   return (
     <Layout>
       <Head>
@@ -84,22 +132,26 @@ export default function Page() {
             </div>
           <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
             <div className="relative p-8 bg-white rounded-lg shadow-lg sm:p-12">
-              <form>
+              <form onSubmit={handleFormSubmit}>
                 <div className="mb-6">
                   <label className="text-xl block text-blueEce text-sm font-bold">First name</label>
-                  <input type="text" placeholder="Your Name" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none"/>
+                  <input type="text" name="firstName" value={contact.firstName} placeholder="First Name" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none" onChange={handleInputChange}/>
+                </div>
+                <div className="mb-6">
+                  <label className="text-xl block text-blueEce text-sm font-bold">Last name</label>
+                  <input type="text" name="lastName" value={contact.lastName} placeholder="Last Name" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none" onChange={handleInputChange}/>
                 </div>
                 <div className="mb-6">
                   <label className="text-xl block text-blueEce text-sm font-bold">Email</label>
-                  <input type="email" placeholder="Your Email" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none"/>
+                  <input type="email" name="email" value={contact.email} placeholder="Email" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none" onChange={handleInputChange} required/>
                 </div>
                   <div className="mb-6">
                     <label className="text-xl block text-blueEce text-sm font-bold">Subject</label>
-                    <input type="text" placeholder="Subject" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none"/>
+                    <input type="text" name="subject" value={contact.subject} placeholder="Subject" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full rounded border py-3 px-[14px] outline-none" onChange={handleInputChange} required/>
                   </div>
                   <div className="mb-6">
                     <label className="text-xl block text-blueEce text-sm font-bold">Message</label>
-                    <textarea rows="6" placeholder="Your Message" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full resize-none rounded border py-3 px-[14px] outline-none"></textarea>
+                    <textarea rows="6" name="message" value={contact.message} placeholder="Your Message" className="border-darkblue border-2 text-darkblue focus:border-blueEce focus:border-2 w-full resize-none rounded border py-3 px-[14px] outline-none" onChange={handleInputChange} required></textarea>
                   </div>
                   <div>
                     <button type="submit" className="w-full p-3 bg-blueEce text-white transition border rounded border-primary bg-primary hover:bg-opacity-90">
