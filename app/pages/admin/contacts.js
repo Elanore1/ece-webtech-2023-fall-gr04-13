@@ -1,18 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment, useRef, useContext} from 'react'
 import Link from 'next/link'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import Layout from '../../components/Layout.js'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Dialog, Transition } from '@headlessui/react'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import UserContext from '../../components/UserContext'
 
 export default function Contacts() {
+  const [open, setOpen] = useState(true)
+  const cancelButtonRef = useRef(null)
+  const {user} = useContext(UserContext);
+
   const [contacts, setContacts] = useState([])
   const supabase = useSupabaseClient()
+
   useEffect(() => {
     (async () => {
       let { data, error, status } = await supabase.from('contacts').select(`id, firstname, lastname, email,subject`)
       setContacts(data)
     })()
   }, [])
+
   return (
     <Layout
       title="Admin Contacts"
@@ -23,43 +32,97 @@ export default function Contacts() {
       </h1>
       <div className="not-prose -my-0 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-            <table className="min-w-full divide-y divide-slate-300">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-darkblue sm:pl-6">
-                    Firstname
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
-                    Lastname
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
-                    Email
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
-                    Subject
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 bg-white">
-                {contacts.map((contact) => (
-                  <tr key={contact.email}>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.firstname}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.lastname}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.email}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.subject}</td>
-                    <td>
-                      <Link href={`/admin/contacts/${contact.id}`} className={"w-5 h-5 block bg-slate-200 hover:bg-blueEce hover:text-white rounded-full"}>
-                          <ChevronRightIcon className="h-5 w-5 " aria-hidden="true" />
-                      </Link>
-                    </td>
+          { user ? (
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <table className="min-w-full divide-y divide-slate-300">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-darkblue sm:pl-6">
+                      Firstname
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
+                      Lastname
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
+                      Email
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
+                      Subject
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-darkblue">
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  {contacts.map((contact) => (
+                    <tr key={contact.email}>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.firstname}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.lastname}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.email}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.subject}</td>
+                      <td>
+                        <Link href={`/admin/contacts/${contact.id}`} className={"w-5 h-5 block bg-slate-200 hover:bg-blueEce hover:text-white rounded-full"}>
+                            <ChevronRightIcon className="h-5 w-5 " aria-hidden="true" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div>
+              <div id="alert-2" className="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <svg className="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span className="sr-only">Info</span>
+                <div className="ms-3 text-sm font-medium">
+                  Viewing messages is not authorized, please <a href={`/login-native`} className="font-semibold underline hover:no-underline">login</a> to access them.
+                </div>
+              </div>
+              <Transition.Root show={open} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+                  <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                  </Transition.Child>
+                  <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                      <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"enterTo="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 translate-y-0 sm:scale-100" leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                          <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                            <div className="sm:flex sm:items-start">
+                              <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                              </div>
+                              <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-darkblue">
+                                  Login Required
+                                </Dialog.Title>
+                                <div className="mt-2">
+                                  <p className="text-sm text-gray-500">
+                                    If you want to see all messages send by users, you have to login to your account or create a new account.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                            <button type="button" className="inline-flex w-full justify-center rounded-md bg-blueEce px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-darkblue sm:ml-3 sm:w-auto">
+                              <a href={`/login-native`}>Login</a>
+                            </button>
+                            <button type="button" className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-darkblue border shadow-sm ring-1 ring-inset ring-darkblue hover:bg-gray-50 sm:mt-0 sm:w-auto" onClick={() => setOpen(false)} ref={cancelButtonRef}>
+                              Cancel
+                            </button>
+                          </div>
+                        </Dialog.Panel>
+                      </Transition.Child>
+                    </div>
+                  </div>
+                </Dialog>
+              </Transition.Root>
+            </div>
+          )}
         </div>
       </div>
     </Layout>

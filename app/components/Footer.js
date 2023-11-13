@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer(){
   return (
-    <footer className="bg-blueEce dark:bg-gray-900">
+    <footer className="bg-blueEce">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link href={`/`}><img src="/logo.png" className="h-14 mr-3" alt="FlowBite Logo"/></Link>

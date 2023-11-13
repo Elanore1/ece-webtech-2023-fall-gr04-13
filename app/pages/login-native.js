@@ -25,25 +25,24 @@ function LoginNative(){
             <meta name="description" content="Don't be shy, drop us an email" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="text-center">
+        <div className="text-center bg-whiteSpecial">
             { showUserData ? (
-                <div>
+                <div className="text-center bg-whiteSpecial">
                     <h1 className="text-3xl wt-title text-darkblue">Personnal Informations :</h1>
                     <p>Hello User : {formData.username}</p>
                     <p>Password : {formData.password}</p>
                 </div>
             ):(
-                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto">
                     <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-darkblue dark:text-white">
-                        <img className="h-16 w-auto" src="/logo.png" alt="logo"/>
-                        WebSite    
+                        <img className="h-20 w-25" src="/logo.png" alt="logo"/>
                     </a>
                     <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-darkblue md:text-2xl ">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
+                            <form className="space-y-4 md:space-y-6 " onSubmit={onSubmit}>
                                 <div>
                                     <label for="username" className="block mb-2 text-sm font-bold text-darkblue">Your Username</label>
                                     <input type="text" name="username" id="username" className="bg-gray-50 border border-gray-300 text-darkblue sm:text-sm rounded-lg focus:ring-blueEce focus:border-darkblue block w-full p-2.5" placeholder="Username" required/>

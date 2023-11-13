@@ -26,7 +26,7 @@ function LoginControlled(){
                 </div>
             ):(
                 <div>
-                    <h1 className="text-3xl wt-title text-darkblue">Login Native</h1>
+                    <h1 className="text-3xl wt-title text-darkblue">Login Controlled</h1>
                     <form className="mx-auto max-w-md mt-4 p-4 bg-white rounded-lg shadow-md" onSubmit={onSubmit}>
                     <div className="mb-4">
                         <label className="block text-darkblue text-sm font-bold">Username</label>

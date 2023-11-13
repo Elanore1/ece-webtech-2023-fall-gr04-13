@@ -8,6 +8,7 @@ const LoggedIn = () => {
     const isSmallScreen =  window.innerWidth <= 768
     const onClickLogout = ()=>{
         logout()
+        window.location.reload()
     }
     return (
         <div>
