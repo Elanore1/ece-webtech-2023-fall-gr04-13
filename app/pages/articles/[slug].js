@@ -51,7 +51,7 @@ export default function Page({
                       <span className="font-bold text-darkblue">Select Color:</span>
                       <div className="flex items-center mt-2">
                         {article.color.map((color, index)=>(
-                          <button onClick={() => handleImageClick(index)} className={`w-6 h-6 rounded-full mr-2  ${index === currentImg ? 'border-2 border-blueEce' : 'border-2 border-darkblue'} bg-${color}`} style={{ backgroundColor: color }}></button>
+                          <button key={index} onClick={() => handleImageClick(index)} className={`w-6 h-6 rounded-full mr-2  ${index === currentImg ? 'border-2 border-blueEce' : 'border-2 border-darkblue'} bg-${color}`} style={{ backgroundColor: color }}></button>
                         ))}
                       </div>
                   </div>
@@ -59,7 +59,7 @@ export default function Page({
                       <span className="font-bold text-darkblue">Select Size:</span>
                       <div className="flex items-center mt-2">
                         {article.size.map((size, index)=>(
-                            <button onClick={() => handleCurrentClick(index)} className={`py-2 px-4 rounded-full font-bold mr-2 ${index === currentSize ? 'bg-blueEce text-white' : 'bg-gray-300 text-darkblue hover:bg-gray-400'}`}>{`${size}`}</button>
+                            <button key={index} onClick={() => handleCurrentClick(index)} className={`py-2 px-4 rounded-full font-bold mr-2 ${index === currentSize ? 'bg-blueEce text-white' : 'bg-gray-300 text-darkblue hover:bg-gray-400'}`}>{`${size}`}</button>
                         ))}
                       </div>
                   </div>

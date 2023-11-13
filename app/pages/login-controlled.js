@@ -13,7 +13,7 @@ function LoginControlled(){
     return (
         <Layout>
         <Head>
-            <title>MyStore - Login Controlled</title>
+            <title>Login Controlled</title>
             <meta name="description" content="Don't be shy, drop us an email" />
             <link rel="icon" href="/favicon.ico" />
         </Head>

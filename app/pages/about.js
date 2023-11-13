@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <Layout>
       <Head>
-        <title>MyStore - About us</title>
+        <title>About us</title>
         <meta name="description" content="Don't be shy, drop us an email" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

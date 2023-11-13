@@ -8,7 +8,7 @@ function Example(){
     return (
         <Layout>
         <Head>
-            <title>MyStore - Use State</title>
+            <title>Use State</title>
             <meta name="description" content="Don't be shy, drop us an email" />
             <link rel="icon" href="/favicon.ico" />
         </Head>

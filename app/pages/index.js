@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-import Image from 'next/image'
 
 export default function Page(){
   return (
@@ -42,11 +41,11 @@ export default function Page(){
           <div className="mx-auto max-w py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="relative isolate overflow-hidden bg-darkblue px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
             <svg viewBox="0 0 1024 1024" className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0" aria-hidden="true">
-              <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
+              <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fillOpacity="0.7" />
               <defs>
                 <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">
-                  <stop stop-color="#007179" />
-                  <stop offset="1" stop-color="#007179" />
+                  <stop stopColor="#007179" />
+                  <stop offset="1" stopColor="#007179" />
                 </radialGradient>
               </defs>
             </svg>
@@ -56,7 +55,7 @@ export default function Page(){
                 The content is updated regularly, so don't hesitate if you're looking for new items at the best prices!<br></br>
                 The entire MyStore team is available to answer any questions or problems you may have in the contact section.
               </p>
-              <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
+              <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                 <Link href="/articles" className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</Link>
                 <Link href="/about" className="text-sm font-semibold leading-6 text-white">Learn more <span aria-hidden="true">→</span></Link>
               </div>

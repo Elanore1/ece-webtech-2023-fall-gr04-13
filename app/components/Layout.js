@@ -11,7 +11,7 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>Webtech - {title}</title>
+        <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>

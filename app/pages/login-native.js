@@ -21,7 +21,7 @@ function LoginNative(){
     return (
         <Layout>
         <Head>
-            <title>MyStore - Login Native</title>
+            <title>Login Native</title>
             <meta name="description" content="Don't be shy, drop us an email" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
