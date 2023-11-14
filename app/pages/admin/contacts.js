@@ -10,7 +10,7 @@ import UserContext from '../../components/UserContext'
 export default function Contacts() {
   const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null)
-  const {user} = useContext(UserContext);
+  const {user} = useContext(UserContext)
 
   const [contacts, setContacts] = useState([])
   const supabase = useSupabaseClient()

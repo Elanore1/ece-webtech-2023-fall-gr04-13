@@ -22,8 +22,7 @@ function classNames(...classes) {
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const {user} = useContext(UserContext);
+  const {user} = useContext(UserContext)
 
   return (
     <header className="bg-blueEce fixed top-0 w-full z-50">

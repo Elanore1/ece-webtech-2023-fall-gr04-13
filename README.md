@@ -1,117 +1,136 @@
-# ECE Web Technologies LAB7
+# ECE Web Technologies LAB8
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Introduction
 
-User local and application state, form manipulation.
-The state is central to any application. The state is shared between the client and the server. 
-- Component state 
-- Form with native elements 
-- Form with controlled elements 
-- Application state with React Context
+We install and use Supabase database in our project. THe supabase platform helps developpers in the creation of moder apps. It core services include database, authentication, file storage and auto-generated APIs. 
 
 ## Description
 
-- Creation of the page at the ["/use-state"](http://localhost:3000/use-state) route with a counter increment when the user click on the button.
+- Supabase Installation
 
-- Creation of the page at the ["/login-native"](http://localhost:3000/login-native) route that use a form to login using `FormData` object
+- Creation of a Contacts table
 
-- Creation of the page at the ["/login-controlled"](http://localhost:3000/login-controlled) route that use a form to login using `data` object that is updated when the user enter some information inside the form
+- Integration of supabase in our next.js integration
 
-- Creation of Application state with React Context :
+- Inserting data into Supabase
+
+- Using RLS for anonymous users
   
-1) Implementing a UserContext
+1) Install supabase
 
-```javascript
-export default UserContext
-export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    return (
-      <UserContext.Provider 
-          value={{ 
-              user: user, 
-              login: (user) =>{
-                  setUser(user)
-              }, 
-              logout:() =>{
-                  setUser(null)
-              }
-          }}
-      >
-      {children}
-      </UserContext.Provider>
-  );
-}
+```bash
+npx supabase init
 ```
-2) Plug the provider inside _app.js
+
+2) Node.js integration 
+
+Install the Node.js dependencies for Supabase:
+
+```bash
+npm add \
+ @supabase/supabase-js \
+ @supabase/auth-helpers-react @supabase/auth-helpers-nextjs
+```
+Save the environment variable :
 
 ```javascript
+NEXT_PUBLIC_SUPABASE_URL=http://localhost:8000
+NEXT_PUBLIC_SUPABASE_ANON_KEY=XXXXXXXXXXXXX
+```
+Edit the _app.js :
+
+```javascript
+import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs'
+import { SessionContextProvider } from '@supabase/auth-helpers-react'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 export default function App({ Component, pageProps }) {
+  // Create a new supabase browser client on every first render.
+  const [supabaseClient] = useState(() => createPagesBrowserClient({ supabaseUrl, supabaseAnonKey }))
   return (
-    <UserProvider>
-      <Component {...pageProps} />
-    </UserProvider>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    > 
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
+    </SessionContextProvider>
   )
 }
+
 ```
-3) Import UserContext in Header.js 
+
+To get data from supabase in our project :
 
 ```javascript
-import UserContext from './UserContext'
-const {user} = useContext(UserContext);
-```
-4) Components LoggedIn and LoggedOut 
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
-LoggedIn.js :
+const supabase = useSupabaseClient()
+
+useEffect(() => {
+    (async () => {
+      let { data, error, status } = await supabase.from('contacts').select(`id, firstname, lastname, email,subject`)
+      setContacts(data)
+    })()
+  }, [])
+```
+
+To send data to supabasec:
 ```javascript
-const LoggedIn = () => {
-    const {user, logout} = useContext(UserContext)
-    const isSmallScreen =  window.innerWidth <= 768
-    const onClickLogout = ()=>{
-        logout()
-    }
-    return (
-        //header styles with user 
-        //access data like this :
-        //{user.img}
-        //with a button to logOut
-        //<button onClick={onClickLogout}>Sign out</button>
-    )
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+
+const supabase = useSupabaseClient()
+
+const {data,error}= await supabase.from('contacts').insert(
+  {
+    firstname:contact.firstName,
+    lastname:contact.lastName,
+    email:contact.email,
+    subject:contact.subject,
+    message:contact.message
+  }
+)
+if (error) {
+  console.error('Error inserting contact:', error);
+} else {
+  console.log('Contact inserted successfully:', data);
 }
-export default LoggedIn;
+setContact({
+  firstName: '',
+  lastName: '',
+  email: '',
+  subject: '',
+  message: '',
+})
 ```
 
-LoggedOut.js :
-```javascript
-const LoggedOut = () => {
-  const {login} = useContext(UserContext)
-  const onClickLogin = async () => {
-    const response = await fetch('/api/profile');
-    const user = await response.json();
-    login(user);
-  };
-  return (
-    <div>
-        <button  onClick={onClickLogin} className="text-left -mx-3 block rounded-lg px-3 py-2.5 text-white font-semibold leading-7 text-gray-900 hover:bg-darkblue">
-            Log In →
-        </button>
-    </div>
-  )
-}
-export default LoggedOut;
-```
+Creation of two Row level security policy :
 
-Now, when navigating across the pages, the `LoggedIn` and `LoggedOut` component states is preserved.
+INSERT Enable insert access for anonymous
+Applied to: anon
+
+SELECT Restrict read acces for anonymous
+Applied to: authenticated
 
 ## Running/Usage instruction
 
 We can run the application with :
 
 ```bash
+npx supabase start
+```
+
+```bash
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:54323/project/default](http://localhost:54323/project/default) to get the acces to the database. 
 
 ## Learn More
 
