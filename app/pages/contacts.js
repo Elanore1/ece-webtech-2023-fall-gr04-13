@@ -58,7 +58,7 @@ export default function Page() {
         <title>Contact Us</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto">
+      <div className="mt-6 container mx-auto">
         <div className="flex flex-wrap -mx-4 lg:justify-between">
           <div className="w-full px-4 lg:w-1/2 xl:w-6/12">
             <div className="mb-12 max-w-[570px] lg:mb-0 ml-10">

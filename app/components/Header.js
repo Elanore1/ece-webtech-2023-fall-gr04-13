@@ -4,7 +4,7 @@ import { Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
 import { ChevronDownIcon} from '@heroicons/react/20/solid'
 import Link from 'next/link'
 //User import
-import UserContext from './UserContext'
+import {useUser} from './UserContext'
 import LoggedIn from './LoggedIn'
 import LoggedOut from './LoggedOut'
 
@@ -22,7 +22,7 @@ function classNames(...classes) {
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const {user} = useContext(UserContext)
+  const {user} = useUser()
 
   return (
     <header className="bg-blueEce fixed top-0 w-full z-50">

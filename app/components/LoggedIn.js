@@ -1,14 +1,20 @@
 import {useContext,Fragment} from 'react';
-import UserContext from './UserContext'
+import {useUser} from './UserContext'
 import { Disclosure,Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const LoggedIn = () => {
-    const {user, logout} = useContext(UserContext)
+    const {user} = useUser()
+    const {signOut} = useUser()
+    const router = useRouter()
     const isSmallScreen =  window.innerWidth <= 768
+    
     const onClickLogout = ()=>{
-        logout()
+        signOut()
+        router.push('/login')
     }
+
     return (
         <div>
         {isSmallScreen ? (
@@ -17,17 +23,9 @@ const LoggedIn = () => {
                 <>
                     <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900">
                     <div className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white flex items-center space-x-4">
-                        <img
-                        id="avatarButton"
-                        type="button"
-                        data-dropdown-toggle="userDropdown"
-                        data-dropdown-placement="bottom-start"
-                        src={user.img}
-                        alt="User dropdown"
-                        className="w-10 h-10 rounded-full cursor-pointer"
-                        />
+                        <img class="w-10 h-10 rounded-full cursor-pointer" src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp" alt="John Doe"/>
                         <div className="font-medium text-white flex flex-col">
-                            <div>{user.username}</div>
+                            <div>{user.email}</div>
                             <div className="text-sm text-darkblue">{user.email}</div>
                         </div>
                     </div>
@@ -58,16 +56,9 @@ const LoggedIn = () => {
             </Disclosure>
         ):(
             <Popover.Button className=" lg:px-8 flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                <img
-                    id="avatarButton"
-                    type="button"
-                    data-dropdown-toggle="userDropdown"
-                    data-dropdown-placement="bottom-start"
-                    src={user.img}
-                    alt="User dropdown"
-                    className=" w-full h-12 rounded-full cursor-pointer" />
+                <img class="w-10 h-10 rounded-full cursor-pointer" src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp" alt="John Doe"/>
                 <div className="font-medium text-white">
-                    <div>{user.username}</div>
+                    <div>{user.email}</div>
                     <div className="text-sm text-darkblue">{user.email}</div>
                 </div>
                 <div className="indicator ml-4">
@@ -76,7 +67,7 @@ const LoggedIn = () => {
                 <Transition as={Fragment} enter="transition ease-out duration-200" enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 translate-y-1">
                     <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-50 overflow-hidden rounded-3xl bg-whiteSpecial shadow w-44 ring-1 ring-gray-900/5">
                         <div className="px-4 py-3 text-sm text-blueEce dark:text-white">
-                            <div className="font-bold truncate">{user.username}</div>
+                            <div className="font-bold truncate">{user.email}</div>
                             <div className="font-medium truncate">{user.email}</div>
                         </div>
                         <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
@@ -94,13 +85,13 @@ const LoggedIn = () => {
                                 </Link>
                             </li>
                             <li>
-                                <a href={`/setting`} className="block flex px-4 py-2 hover:bg-gray-100 text-left">
+                                <Link href={`/setting`} className="block flex px-4 py-2 hover:bg-gray-100 text-left">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                     <span className='ml-4'>Setting</span>
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a href="#" className="block flex px-4 py-2 hover:bg-gray-100 text-left">

@@ -1,13 +1,10 @@
-import {useContext} from 'react';
-import UserContext from './UserContext'
+import { useRouter } from 'next/router'
 
 const LoggedOut = () => {
-  const {login} = useContext(UserContext)
+  const router = useRouter()
   const onClickLogin = async () => {
-    const response = await fetch('/api/profile');
-    const user = await response.json();
-    login(user);
-  };
+    router.push('/login')
+  }
 
   return (
     <div>

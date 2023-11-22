@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '../../../components/supabaseClient'
 import Layout from '../../../components/Layout.js'
 import md from 'markdown-it'
 
 export default function Contacts({id}) {
   const [contact, setContact] = useState(null)
-  const supabase = useSupabaseClient()
-  const contactId = parseInt(id)
+
   useEffect(() => {
     (async () => {
-      let { data, error, status } = await supabase.from('contacts').select(`*`).eq(`id`, id)
+      let { data, error, status } = await supabaseClient.from('contacts').select(`*`).eq(`id`, id)
       setContact(data[0])
     })()
   }, [id])
@@ -22,7 +21,7 @@ export default function Contacts({id}) {
         <span>Contact</span> message 
       </h1>
       {contact && (
-        <div className="overflow-hidden divide-y divide-slate-200 shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <div className=" mt-6 overflow-hidden divide-y divide-slate-200 shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
             <div className="bg-slate-50">
                 <dl>
                     { (contact.lastname || contact.firstname) ? (
