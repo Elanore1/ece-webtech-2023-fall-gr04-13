@@ -16,8 +16,9 @@ export default function Contacts() {
 
   useEffect(() => {
     (async () => {
-      let { data, error, status } = await supabaseClient.from('contacts').select(`id, firstname, lastname, email,subject`)
-      setContacts(data)
+      let { data : contacts, error } = await supabaseClient.from('contacts').select(`id, firstname, lastname, email, subject`)
+      setContacts(contacts)
+      console.log(contacts)
     })()
   }, [])
 

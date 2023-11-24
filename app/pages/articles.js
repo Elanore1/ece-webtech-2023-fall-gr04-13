@@ -2,15 +2,19 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
+import { supabaseClient } from '../components/supabaseClient'
 
-export async function getStaticProps(){
-  const res = await fetch(`http://localhost:3000/api/articles/`);
-  const articles = await res.json()
+export default function Page(){
+  const [articles, setArticles] = useState([])
 
-  return { props: {articles}}
-}
+  useEffect(() => {
+    (async () => {
+      let { data : articles, error } = await supabaseClient.from('articles').select(`slug, title, brand, price,metadata`)
+      setArticles(articles)
+      console.log(articles)
+    })()
+  }, [])
 
-export default function Page({articles}){
   return (
     <Layout>
       <Head>
@@ -29,7 +33,7 @@ export default function Page({articles}){
         {articles.map( article =>
         <div key={`${article.slug}`} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
           <Link href={`/articles/${article.slug}`}>
-            <img className="h-80 w-72 object-cover rounded-t-xl" src={article.urlArticle[0]} alt={`Image de ${article.title}`}/>
+            <img className="h-80 w-72 object-cover rounded-t-xl" src={article.metadata.urlArticle[0]} alt={`Image de ${article.title}`}/>
             <div className="px-4 py-3 w-72">
               <span className="text-gray-400 mr-3 uppercase text-xs">{article.brand}</span>
               <p className="text-lg font-bold text-blueEce truncate block capitalize">{article.title}</p>

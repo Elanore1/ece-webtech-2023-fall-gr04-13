@@ -41,7 +41,7 @@ const Login = () => {
                         },
                         theme: ThemeSupa
                     }} 
-                    providers={['google','dex','github']}
+                    providers={['github']}
                     />
                 </> : <>
                 <div className="grid min-h-full place-items-center bg-whiteSpecial px-6 py-24 sm:py-32 lg:px-7">
