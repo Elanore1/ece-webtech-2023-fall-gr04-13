@@ -1,122 +1,59 @@
-# ECE Web Technologies LAB8
+# ECE Web Technologies LAB9
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Introduction
 
-We install and use Supabase database in our project. THe supabase platform helps developpers in the creation of moder apps. It core services include database, authentication, file storage and auto-generated APIs. 
+We use Supabase Auth UI component in our login page and integrate OAuth with supabase (registration with github account)
 
 ## Description
 
-- Supabase Installation
+- Activate Supabase Auth UI authentification
 
-- Creation of a Contacts table
+```javascript
+<Auth supabaseClient={supabaseClient} appearance={{
+    style: {
+        button: { background: '#007179', color: 'white'},
+    },
+    theme: ThemeSupa
+}} 
+providers={['github']}
+/>
+```
 
-- Integration of supabase in our next.js integration
-
-- Inserting data into Supabase
-
-- Using RLS for anonymous users
-  
-1) Install supabase
+- Pass OAuth tutorial (install dex)
 
 ```bash
-npx supabase init
+# Install
+git clone https://github.com/dexidp/dex.git
+cd dex
+make build
+# Start
+./bin/dex serve examples/config-dev.yaml
 ```
 
-2) Node.js integration 
+- Integration of OAuth with supabase
 
-Install the Node.js dependencies for Supabase:
-
-```bash
-npm add \
- @supabase/supabase-js \
- @supabase/auth-helpers-react @supabase/auth-helpers-nextjs
+In the config.toml file, we enable the github auth :
+```javascript
+[auth.external.github]
+enabled = true
+client_id = "env(GOTRUE_EXTERNAL_GITHUB_CLIENT_ID)"
+# DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
+secret = "env(GOTRUE_EXTERNAL_GITHUB_SECRET)"
+# Overrides the default auth redirectUrl.
+redirect_uri = "env(GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI)"
+# Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
+# or any other third-party OIDC providers.
+url = ""
 ```
-Save the environment variable :
+We have to configure this environnment variable :
 
 ```javascript
-NEXT_PUBLIC_SUPABASE_URL=http://localhost:8000
-NEXT_PUBLIC_SUPABASE_ANON_KEY=XXXXXXXXXXXXX
+GOTRUE_EXTERNAL_GITHUB_CLIENT_ID=
+GOTRUE_EXTERNAL_GITHUB_SECRET=
+GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI=
 ```
-Edit the _app.js :
-
-```javascript
-import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs'
-import { SessionContextProvider } from '@supabase/auth-helpers-react'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-export default function App({ Component, pageProps }) {
-  // Create a new supabase browser client on every first render.
-  const [supabaseClient] = useState(() => createPagesBrowserClient({ supabaseUrl, supabaseAnonKey }))
-  return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    > 
-      <UserProvider>
-        <Component {...pageProps} />
-      </UserProvider>
-    </SessionContextProvider>
-  )
-}
-
-```
-
-To get data from supabase in our project :
-
-```javascript
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-
-const supabase = useSupabaseClient()
-
-useEffect(() => {
-    (async () => {
-      let { data, error, status } = await supabase.from('contacts').select(`id, firstname, lastname, email,subject`)
-      setContacts(data)
-    })()
-  }, [])
-```
-
-To send data to supabasec:
-```javascript
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-
-const supabase = useSupabaseClient()
-
-const {data,error}= await supabase.from('contacts').insert(
-  {
-    firstname:contact.firstName,
-    lastname:contact.lastName,
-    email:contact.email,
-    subject:contact.subject,
-    message:contact.message
-  }
-)
-if (error) {
-  console.error('Error inserting contact:', error);
-} else {
-  console.log('Contact inserted successfully:', data);
-}
-setContact({
-  firstName: '',
-  lastName: '',
-  email: '',
-  subject: '',
-  message: '',
-})
-```
-
-Creation of two Row level security policy :
-
-INSERT Enable insert access for anonymous
-Applied to: anon
-
-SELECT Restrict read acces for anonymous
-Applied to: authenticated
-
 ## Running/Usage instruction
 
 We can run the application with :
