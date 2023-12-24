@@ -10,6 +10,7 @@ import Link from 'next/link'
 
 const Login = () => {
     const [session, setSession] = useState(null)
+    const [authEvent, setAuthEvent] = useState(null)
     const {user} = useUser()
     const router = useRouter()
 
@@ -17,13 +18,20 @@ const Login = () => {
         supabaseClient.auth.getSession().then(({data: {session}}) => {
             setSession(session)
         })
-        supabaseClient.auth.onAuthStateChange((event, session) => {
+        supabaseClient.auth.onAuthStateChange(async (event, session) => {
             setSession(session)
+            setAuthEvent(event)
             if (event === 'SIGNED_IN') {
                 router.push('/profile')
             }
         })
-      }, [router])
+        
+    }, [session,router])
+
+    const getURL = () => {
+        let url = process?.env?.NEXT_PUBLIC_VERCEL_URL ?? "http://localhost:3000/profile"
+        return url
+    }
 
     return (
         <Layout>
@@ -42,11 +50,12 @@ const Login = () => {
                         theme: ThemeSupa
                     }} 
                     providers={['github']}
+                    redirectTo ={getURL()} 
                     />
                 </> : <>
                 <div className="grid min-h-full place-items-center bg-whiteSpecial px-6 py-24 sm:py-32 lg:px-7">
                     <div className="text-center">
-                    <p className="text-base font-semibold text-blueEce sm:text-3xl">Welcome Back {user.email} ! </p>
+                    <p className="text-base font-semibold text-blueEce sm:text-3xl">Welcome Back {user.name} ! </p>
                     <h1 className="mt-4 text-2xl font-bold tracking-tight text-darkblue sm:text-2xl">See what you missed in your absence</h1>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <Link href="/" className="rounded-md bg-blueEce px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go back</Link>
@@ -62,4 +71,4 @@ const Login = () => {
     )
 }
     
-export default Login;
+export default Login

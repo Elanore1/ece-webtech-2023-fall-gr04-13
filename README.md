@@ -1,36 +1,112 @@
-# ECE Web Technologies LAB10
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Blogging application - ECE Webtech project
 
-## Introduction
+*introduction, pre-requisites, installation, usage...*
 
-We deploy our application on Vercel, using supabase database.
+## Deliverables 
 
-## Running/Usage instruction
+- Vercel URL: *place your URL*
+- Supabase project URL: *place your URL*
 
-Locally :
+## Authors
 
-We can run the application with :
+- *Firstname LASTNAME, group*
+- *Firstname LASTNAME, group*
+- *Firstname LASTNAME, group*
 
-```bash
-npx supabase start
-```
+## Evaluation
 
-```bash
-npm run dev
-```
+### Mandatory Tasks
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result locally
-Open [https://ece-webtech-2023-fall-gr04-13-htdq2fbok-elanore1s-projects.vercel.app](https://ece-webtech-2023-fall-gr04-13-htdq2fbok-elanore1s-projects.vercel.app) with your browser to see the result on vercel
+* **Naming convention**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Project structure**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Git usage**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Code quality**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Design, UX, and content**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
 
-## Learn More
+* **Home page**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Navigation**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Login and profile page**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Post creation and display**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Comment creation and display**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Post modification and removal**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Search**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Use an external API**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Resource access control**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Account settings**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **WYSIWYG integration**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Gravatar integration**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+* **Light/dark mode**
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
 
-To learn more about Next.js, take a look at the following resources:
+### Bonus Tasks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* ***Task title 1***   
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
+* ***Task title 2***   
+  * Grade: *How many points you think you deserve*
+  * Comments: *How did you implement the task*
 
-## Name
+## Miscellaneous
 
-Elanore Lelièvre, Solveig Berling, Noé Pham
+### Course Feedback
 
+*Your feedback about the course, what you liked, what you disliked, what you missed...*
+
+### Project Reuse
+
+- [ ] We authorize the professors to use our project as an example for the next year students (facultative).
