@@ -5,15 +5,29 @@ import Layout from '../components/Layout.js'
 import { supabaseClient } from '../components/supabaseClient'
 
 export default function Page(){
-  const [articles, setArticles] = useState([])
+  const [datas, setDatas] = useState([])
+  const regex = /<p[^>]*>(.*?)<\/p>/
 
   useEffect(() => {
     (async () => {
-      let { data : articles, error } = await supabaseClient.from('articles').select(`slug, title, brand, price,metadata`)
-      setArticles(articles)
+      let { data : articles, error } = await supabaseClient.from('articles').select(`*`)
       console.log(articles)
+      let { data : profiles, error2 } = await supabaseClient.from('profiles').select(`*`)
+      console.log(profiles)
+      setDatas(bothTable(articles,profiles))
+      console.log("DATAS",datas)
     })()
   }, [])
+
+  const bothTable = (articles, profiles) => {
+    const CryptoJS = require("crypto-js")
+    const datas = articles.map((article) => {
+      const profileAssocie = profiles.find((profile) => profile.id === article.user_id)
+        return { ...article, profile: profileAssocie , GravatarUrl: `https://www.gravatar.com/avatar/${CryptoJS.MD5(profileAssocie?.email.toLowerCase()).toString()}?d=mp`}
+    })
+    console.log("DATASBEFORE",datas)
+    return datas
+  }
 
   return (
     <Layout>
@@ -28,85 +42,39 @@ export default function Page(){
           <p class="mt-2 text-lg leading-8 text-darkblue">Read the articles written by Internet users! You'll find lots of blogs on different fashion topics below. Don't hesitate to react if you have any questions ;)</p>
         </div>
         <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          <article class="p-4 rounded-xl flex max-w-xl flex-col items-start justify-between bg-white duration-500 hover:scale-105 hover:shadow-xl">
-            <div class="flex items-center gap-x-4 text-xs">
-              <time datetime="2020-03-16 gap-x-4" class="text-gray-500">Mar 16, 2020</time>
-              <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Tag</a>
-            </div>
-            <div class="group relative">
-              <h3 class="mt-3 text-lg font-semibold leading-6 text-blueEce ">
-                <a href="#">
-                  <span class="absolute inset-0"></span>
-                  Title
-                </a>
-              </h3>
-              <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.</p>
-            </div>
-            <div class="relative mt-8 flex items-center gap-x-4">
-              <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-50" />
-              <div class="text-sm leading-6">
-                <p class="font-semibold text-gray-900">
-                  <a href="#">
-                    <span class="absolute inset-0"></span>
-                    Username
-                  </a>
-                </p>
-                <p class="text-gray-600">Country</p>
-              </div>
-            </div>
-          </article>
-          <article class="p-4 rounded-xl flex max-w-xl flex-col items-start justify-between bg-white duration-500 hover:scale-105 hover:shadow-xl">
-            <div class="flex items-center gap-x-4 text-xs">
-              <time datetime="2020-03-16 gap-x-4" class="text-gray-500">Mar 16, 2020</time>
-              <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Tag</a>
-            </div>
-            <div class="group relative">
-              <h3 class="mt-3 text-lg font-semibold leading-6 text-blueEce ">
-                <a href="#">
-                  <span class="absolute inset-0"></span>
-                  Title
-                </a>
-              </h3>
-              <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.</p>
-            </div>
-            <div class="relative mt-8 flex items-center gap-x-4">
-              <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-50" />
-              <div class="text-sm leading-6">
-                <p class="font-semibold text-gray-900">
-                  <a href="#">
-                    <span class="absolute inset-0"></span>
-                    Username
-                  </a>
-                </p>
-                <p class="text-gray-600">Country</p>
-              </div>
-            </div>
-          </article>
+        {datas.map((data) => (
+            <article class="p-4 rounded-xl flex max-w-xl flex-col items-start justify-between bg-white duration-500 hover:scale-105 hover:shadow-xl overflow-hidden">
+                <div class="flex items-center gap-x-4 text-xs overflow-hidden">
+                    <time datetime={new Date(data.created_at).toISOString()} class="text-gray-500">
+                      {new Date(data.created_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </time>
+                    <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{data.tag}</a>
+                    </div>
+                    <div class="group relative">
+                    <h3 class="mt-3 text-lg font-semibold leading-6 text-blueEce">
+                        <a href={`/articles/${data.id}`}>
+                        <span class="absolute inset-0"></span>
+                            {data.title}
+                        </a>
+                    </h3>
+                    <p class="mt-5 line-clamp-3 text-sm leading-5 text-gray-600 max-w-[100%]">{data.content.match(regex)[1]}</p>
+                    </div>
+                    <div class="relative mt-8 flex items-center gap-x-4">
+                    <img src={data.GravatarUrl} alt="" class="h-10 w-10 rounded-full bg-gray-50" />
+                    <div class="text-sm leading-6">
+                        <p class="font-semibold text-gray-900">
+                        <a href="#">
+                            <span class="absolute inset-0"></span>
+                            {data.profile.username}
+                        </a>
+                        </p>
+                        <p class="text-gray-600">{data.profile.country}</p>
+                    </div>
+                </div>
+            </article>
+            ))}
         </div>
       </div>
-
-      <section id="articles" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
-        {articles.map( article =>
-        <div key={`${article.slug}`} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-          <Link href={`/articles/${article.slug}`}>
-            <img className="h-80 w-72 object-cover rounded-t-xl" src={article.metadata.urlArticle[0]} alt={`Image de ${article.title}`}/>
-            <div className="px-4 py-3 w-72">
-              <span className="text-gray-400 mr-3 uppercase text-xs">{article.brand}</span>
-              <p className="text-lg font-bold text-blueEce truncate block capitalize">{article.title}</p>
-              <div className="flex items-center">
-                <p className="text-lg font-semibold text-darkblue cursor-auto my-3">{article.price}</p>
-                <div className="ml-auto">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0e254a" className="bi bi-bag-plus" viewBox="0 0 16 16">
-                    <path fillRule="evenodd" d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z" />
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
-        )}
-      </section>
     </Layout>
   )
 }

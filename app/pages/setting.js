@@ -9,8 +9,6 @@ export default function Profile() {
     const {user} = useUser()
     const [profile, setProfile] = useState(null)
     const [validData, setValidData] = useState(false)
-    const [error1,setError1] = useState(false)
-    const [error2,setError2] = useState(false)
     const [gravatarUrl, setGravatarUrl] = useState(null)
     const router = useRouter()
     const [formData, setFormData] = useState({
@@ -58,6 +56,7 @@ export default function Profile() {
             city: formData.city ?  formData.city : cityInput.current.placeholder !== 'City' ? cityInput.current.placeholder : null,
             department: formData.state ?  formData.state : stateInput.current.placeholder !== 'Department' ? stateInput.current.placeholder : null,
             postal_code: formData.postal_code ?  formData.postal_code : postal_codeInput.current.placeholder !== 'Postal code' ? postal_codeInput.current.placeholder : null,
+            email: user?.email,
         }).eq(`id`, user.id)
         if(error){
             console.log(error)
