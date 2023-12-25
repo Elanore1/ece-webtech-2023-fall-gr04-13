@@ -8,6 +8,7 @@ import { useState , useEffect} from 'react'
 export default function Page(){
     const {user} = useUser()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [LastSignInDate, setLastSignInDate] = useState(null)
     const [profile, setProfile] = useState(null)
     const [gravatarUrl, setGravatarUrl] = useState(null)
     const router = useRouter()
@@ -116,7 +117,7 @@ export default function Page(){
                                 </div>
                             </div>
                             <div>
-                                <label className="text-sm text-gray-400">Last signed in : { Date(user?.identities.last_sign_in_at)}</label>
+                                <label className="text-sm text-gray-400">Last signed in : {Date( user?.identities.last_sign_in_at).toString().slice(0, 25)}</label>
                             </div>
                         </div>
                     </div>

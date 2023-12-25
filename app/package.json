@@ -18,14 +18,18 @@
     "@supabase/supabase-js": "^2.38.4",
     "@tailwindcss/forms": "^0.5.6",
     "@tailwindcss/typography": "^0.5.10",
+    "@tinymce/tinymce-react": "^4.3.2",
     "crypto-js": "^4.2.0",
+    "draft-js": "^0.11.7",
     "markdown-it": "^13.0.2",
     "next": "^13.5.6",
     "node": "^21.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-draft-wysiwyg": "^1.15.0",
     "sh": "^0.0.3",
-    "tailwindcss-font-inter": "^3.0.1"
+    "tailwindcss-font-inter": "^3.0.1",
+    "tinymce": "^6.8.2"
   },
   "devDependencies": {
     "autoprefixer": "^10",
