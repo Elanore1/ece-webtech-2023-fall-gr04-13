@@ -43,20 +43,24 @@ export default function createArticle(){
         e.preventDefault()
         console.log(formData)
         console.log(articleContent)
-        const {data, error} = await supabaseClient
-        .from('articles')
-        .insert([{
-            title: formData.title,
-            tag: formData.tag,
-            categories: formData.categories,
-            content: articleContent,
-            user_id: user.id
-        },])
-        .select()
-        if(error){
-            console.log(error)
+        if(articleContent){
+            const {data, error} = await supabaseClient
+            .from('articles')
+            .insert([{
+                title: formData.title,
+                tag: formData.tag,
+                categories: formData.categories,
+                content: articleContent,
+                user_id: user.id
+            },])
+            .select()
+            if(error){
+                console.log(error)
+            }
+            router.push('/profile/articles')
+        }else{
+            console.log("Pas de contenu")
         }
-        router.push('/profile/articles')
     }
 
     return (
@@ -64,7 +68,7 @@ export default function createArticle(){
         <h1 className='wt-title text-darkblue text-center'>
             <span>Write an</span> New Article
         </h1>
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit}>
             <div className="space-y-12">
                 <div className="mb-8 border-b border-gray-900/10 pb-12">
                     <div className="mb-8 mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -126,7 +130,7 @@ export default function createArticle(){
                 </div> 
             </div> 
             <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button onClick={CancelArticle} className="rounded-md bg-blueEce px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-darkblue">Cancel</button>
+                <button type='button' onClick={CancelArticle} className="rounded-md bg-blueEce px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-darkblue">Cancel</button>
                 <button type="submit" className="rounded-md bg-blueEce px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-darkblue">Save</button>
             </div>
         </form>

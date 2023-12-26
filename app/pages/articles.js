@@ -71,30 +71,30 @@ export default function Page(){
         {datas.map((data) => (
             <article class="p-4 rounded-xl flex max-w-xl flex-col items-start justify-between bg-white duration-500 hover:scale-105 hover:shadow-xl overflow-hidden">
                 <div class="flex items-center gap-x-4 text-xs overflow-hidden">
-                    <time datetime={new Date(data.created_at).toISOString()} class="text-gray-500">
-                      {new Date(data.created_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    <time datetime={new Date(data?.created_at).toISOString()} class="text-gray-500">
+                      {new Date(data?.created_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </time>
-                    <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{data.tag}</a>
+                    <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{data?.tag}</a>
                     </div>
                     <div class="group relative">
                     <h3 class="mt-3 text-lg font-semibold leading-6 text-blueEce">
-                        <a href={`/articles/${data.id}`}>
+                        <a href={`/articles/${data?.id}`}>
                         <span class="absolute inset-0"></span>
-                            {data.title}
+                            {data?.title}
                         </a>
                     </h3>
-                    <p class="mt-5 line-clamp-3 text-sm leading-5 text-gray-600 max-w-[100%]">{data.content.match(regex)[1]}</p>
+                    <p class="mt-5 line-clamp-3 text-sm leading-5 text-gray-600 max-w-[100%]">{data?.content?.match(regex) ? data?.content?.match(regex)[1] : ''}</p>
                     </div>
                     <div class="relative mt-8 flex items-center gap-x-4">
-                    <img src={data.GravatarUrl} alt="" class="h-10 w-10 rounded-full bg-gray-50" />
+                    <img src={data?.GravatarUrl} alt="" class="h-10 w-10 rounded-full bg-gray-50" />
                     <div class="text-sm leading-6">
                         <p class="font-semibold text-gray-900">
                         <a href="#">
                             <span class="absolute inset-0"></span>
-                            {data.profile.username}
+                            {data?.profile.username}
                         </a>
                         </p>
-                        <p class="text-gray-600">{data.profile.country}</p>
+                        <p class="text-gray-600">{data?.profile.country}</p>
                     </div>
                 </div>
             </article>
