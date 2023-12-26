@@ -13,7 +13,7 @@ export default function Page(){
     useEffect(() => {
         if(user){
             (async () => {
-                let { data : articles, error } = await supabaseClient.from('articles').select(`*`).eq(`user_id`, user?.id)
+                let { data : articles, error } = await supabaseClient.from('articles').select(`*`).eq(`user_id`, user?.id).order('created_at', { ascending: false })
                 setArticles(articles)
             })()
             async function fetchData(){

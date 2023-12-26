@@ -3,21 +3,47 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
 import { supabaseClient } from '../components/supabaseClient'
+import { useRouter } from 'next/router'
 
 export default function Page(){
   const [datas, setDatas] = useState([])
   const regex = /<p[^>]*>(.*?)<\/p>/
+  const router = useRouter()
+  const { search } = router.query
+
+   const createSearchString = () => {
+    const decodedString =  decodeURIComponent(search)
+    const wordsArray = decodedString.split(' ')
+    const formattedArray = wordsArray.map(word => `'${word}'`)
+    const searchstring = formattedArray.join(' | ')
+    console.log(searchstring)
+    return searchstring
+  };
 
   useEffect(() => {
-    (async () => {
-      let { data : articles, error } = await supabaseClient.from('articles').select(`*`)
-      console.log(articles)
-      let { data : profiles, error2 } = await supabaseClient.from('profiles').select(`*`)
-      console.log(profiles)
-      setDatas(bothTable(articles,profiles))
-      console.log("DATAS",datas)
-    })()
-  }, [])
+    if(search){
+      (async () => {
+        console.log(createSearchString())
+        //use the fts column to search
+        const { data : articles, error } = await supabaseClient.from('articles').select().textSearch('fts', `${createSearchString()}`)
+        console.log("articles for search :", articles)
+        let { data : profiles, error2 } = await supabaseClient.from('profiles').select(`*`)
+        console.log(profiles)
+        setDatas(bothTable(articles, profiles))
+        console.log("DATAS",datas)
+      })()
+
+    }else{
+      (async () => {
+        let { data : articles, error } = await supabaseClient.from('articles').select(`*`)
+        console.log(articles)
+        let { data : profiles, error2 } = await supabaseClient.from('profiles').select(`*`)
+        console.log(profiles)
+        setDatas(bothTable(articles,profiles))
+        console.log("DATAS",datas)
+      })()
+    }
+  }, [search])
 
   const bothTable = (articles, profiles) => {
     const CryptoJS = require("crypto-js")
