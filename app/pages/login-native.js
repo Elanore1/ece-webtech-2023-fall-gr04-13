@@ -44,11 +44,11 @@ function LoginNative(){
                             </h1>
                             <form className="space-y-4 md:space-y-6 " onSubmit={onSubmit}>
                                 <div>
-                                    <label for="username" className="block mb-2 text-sm font-bold text-darkblue">Your Username</label>
+                                    <label htmlFor="username" className="block mb-2 text-sm font-bold text-darkblue">Your Username</label>
                                     <input type="text" name="username" id="username" className="bg-gray-50 border border-gray-300 text-darkblue sm:text-sm rounded-lg focus:ring-blueEce focus:border-darkblue block w-full p-2.5" placeholder="Username" required/>
                                 </div>
                                 <div>
-                                    <label for="password" className="block mb-2 text-sm font-bold text-darkblue">Password</label>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-bold text-darkblue">Password</label>
                                     <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-darkblue sm:text-sm rounded-lg focus:ring-blueEce focus:border-darkblue block w-full p-2.5" required/>
                                 </div>
                                 <div className="flex items-center justify-between">
@@ -57,7 +57,7 @@ function LoginNative(){
                                             <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded checked:bg-blueEce focus:ring-3 focus:ring-blue-900"/>
                                         </div>
                                         <div className="ml-3 text-sm">
-                                            <label for="remember" className="text-gray-500">Remember me</label>
+                                            <label htmlFor="remember" className="text-gray-500">Remember me</label>
                                         </div>
                                     </div>
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>

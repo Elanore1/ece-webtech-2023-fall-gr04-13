@@ -7,7 +7,10 @@ import { useRouter } from 'next/router'
 export default function Page({id}) {
     const [data, setDatas] = useState([])
     const [comments, setComments] = useState([])
+    const [relatedContent, setRelatedContent] = useState([])
     const CryptoJS = require("crypto-js")
+    const regex = /<p[^>]*>(.*?)<\/p>/
+
     const [formData, setFormData] = useState({
         content : '',
         article_id: '',
@@ -24,6 +27,9 @@ export default function Page({id}) {
             console.log(comments)
             let { data : profiles, error2} = await supabaseClient.from('profiles').select(`*`)
             console.log(profiles)
+            let { data : relatives, error3} = await supabaseClient.from('articles').select(`*`).eq(`tag`,article[0].tag).not(`id`, 'eq', id).limit(4)
+            console.log(relatives)
+            setRelatedContent(relatives)
             const datas = bothTable(article[0],profiles)
             const comment = commentTable( comments,profiles)
             console.log("DATAS",datas)
@@ -34,12 +40,10 @@ export default function Page({id}) {
     }, [id])
 
     const bothTable = (article, profiles) => {
-        const CryptoJS = require("crypto-js")
         const profileAssocie = profiles.find((profile) => profile.id === article.user_id)
             return { ...article, profile: profileAssocie}
     }
     const commentTable = (comments, profiles) => {
-        const CryptoJS = require("crypto-js")
         const commentsWithProfiles = comments.map((comment)=>{
             const profileAssocie = profiles.find((profile) => profile.id === comment.user_id)
                         return { ...comment, profile: profileAssocie, isGood: false, isBad: false}
@@ -77,6 +81,21 @@ export default function Page({id}) {
         }else{
             console.log("Pas de contenu")
         }
+    }
+
+    const ImgSrc = (htmlContent) => {
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(htmlContent, 'text/html')
+        console.log("htmlcontent",htmlContent)
+        const imageElements = doc.querySelectorAll('img')
+        console.log("imgeleme",imageElements)
+        const imageUrls = Array.from(imageElements).map(img => img.getAttribute('src'))
+        Array.from(parser.parseFromString(htmlContent, 'text/html').querySelectorAll('img')).map(img => img.getAttribute('src'))
+        console.log("urlimg",imageUrls)
+        if(imageUrls == null)
+            return 0
+        else 
+            return imageUrls[0]
     }
 
     const handleMark  = async (comment, markType) => {
@@ -188,25 +207,6 @@ export default function Page({id}) {
                                 </svg>
                                 <span className="sr-only">Comment settings</span>
                             </button>
-
-                            <div id="dropdownComment1"
-                                className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="dropdownMenuIconHorizontalButton">
-                                    <li>
-                                        <a href="#"
-                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </footer>
                         <p>{comment?.content}</p>
                         <div className="flex items-center mt-4 space-x-4">
@@ -228,61 +228,24 @@ export default function Page({id}) {
                 </section>
             </article>
         </div>
-
         <aside aria-label="Related articles" className="py-8 lg:py-24 dark:bg-gray-800">
         <div className="px-4 mx-auto max-w-screen-xl">
             <h2 className="mb-8 text-2xl font-bold text-darkblue dark:text-white">Related articles</h2>
             <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+                {relatedContent?.map((RelatedArticle) => ( 
                 <article className="max-w-xs">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png" className="mb-5 rounded-lg" alt="Image 1"/>
-                    </a>
+                    <img src={ImgSrc(RelatedArticle?.content) ? ImgSrc(RelatedArticle?.content) : "https://media.istockphoto.com/id/1093663576/fr/vectoriel/look-de-rue-illustration-de-mode-dessin-vectoriel.jpg?s=612x612&w=0&k=20&c=ZcCw5ekTR7bLO4IPy7Xj9DQg24QwmVUf35T4sBJEcjE="} className="mb-5 rounded-lg" alt="Image 1"/>
                     <h2 className="mb-2 text-xl font-bold leading-tight text-blueEce dark:text-white">
-                        <a href="#">Our first office</a>
+                        <a href={`/articles/${RelatedArticle?.id}`}>{RelatedArticle?.title}</a>
                     </h2>
-                    <p className="mb-4 text-darkblue dark:text-gray-400">Over the past year, Volosoft has undergone many changes! After months of preparation.</p>
-                    <a href="#" className="inline-flex items-center font-medium underline underline-offset-4 darkblue dark:text-primary-500 hover:no-underline">
+                    <p className="mb-4 text-darkblue dark:text-gray-400">{RelatedArticle?.content.match(regex)[1].split('.')[0].trim()}</p>
+                    <a href={`/articles/${RelatedArticle?.id}`} className="inline-flex items-center font-medium underline underline-offset-4 darkblue dark:text-primary-500 hover:no-underline">
                         Read
                     </a>
                 </article>
-                <article className="max-w-xs">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png" className="mb-5 rounded-lg" alt="Image 2"/>
-                    </a>
-                    <h2 className="mb-2 text-xl font-bold leading-tight text-blueEce dark:text-white">
-                        <a href="#">Enterprise design tips</a>
-                    </h2>
-                    <p className="mb-4  text-darkblue dark:text-gray-400">Over the past year, Volosoft has undergone many changes! After months of preparation.</p>
-                    <a href="#" className="inline-flex items-center font-medium underline underline-offset-4 text-darkblue dark:text-primary-500 hover:no-underline">
-                        Read
-                    </a>
-                </article>
-                <article className="max-w-xs">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png" className="mb-5 rounded-lg" alt="Image 3"/>
-                    </a>
-                    <h2 className="mb-2 text-xl font-bold leading-tight text-blueEce dark:text-white">
-                        <a href="#">We partnered with Google</a>
-                    </h2>
-                    <p className="mb-4  text-darkblue dark:text-gray-400">Over the past year, Volosoft has undergone many changes! After months of preparation.</p>
-                    <a href="#" className="inline-flex items-center font-medium underline underline-offset-4 text-darkblue dark:text-primary-500 hover:no-underline">
-                        Read
-                    </a>
-                </article>
-                <article className="max-w-xs">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png" className="mb-5 rounded-lg" alt="Image 4"/>
-                    </a>
-                    <h2 className="mb-2 text-xl font-bold leading-tight text-blueEce dark:text-white">
-                        <a href="#">Our first project with React</a>
-                    </h2>
-                    <p className="mb-4  text-darkblue dark:text-gray-400">Over the past year, Volosoft has undergone many changes! After months of preparation.</p>
-                    <a href="#" className="inline-flex items-center font-medium underline underline-offset-4 text-darkblue dark:text-primary-500 hover:no-underline">
-                        Read
-                    </a>
-                </article>
+                ))}
             </div>
-        </div>
+            </div>
         </aside>
     </Layout>
   )

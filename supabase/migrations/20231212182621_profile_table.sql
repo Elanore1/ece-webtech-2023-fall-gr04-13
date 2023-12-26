@@ -48,3 +48,10 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
+-- adding fts for search in articles
+alter table
+  articles
+add column
+  fts tsvector generated always as (to_tsvector('english', title || ' ' || tag || ' ' || categories || ' ' || content)) stored;
+
+create index articles_fts on articles using gin(fts); -- generate the index

@@ -1,8 +1,35 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
+import { useEffect, useState } from 'react'
 
 export default function Page(){
+  const [quote, setQuote] = useState("")
+  const [author, setAuthor] = useState("")
+  // http://api.quotable.io/random external api to generate quotes
+
+  useEffect(() => {
+    fetch("http://api.quotable.io/random")
+      .then(res => res.json())
+      .then(
+        (quote) => {
+          setQuote(quote.content)
+          setAuthor(quote.author)
+        }
+      )
+  },[])
+
+  let fetchNewQuote = () => {
+    fetch("http://api.quotable.io/random")
+      .then(res => res.json())
+      .then(
+        (quote) => {
+          setQuote(quote.content)
+          setAuthor(quote.author)
+        }
+      )
+  }
+
   return (
     <Layout>
       <Head>
@@ -17,14 +44,15 @@ export default function Page(){
               Your browser does not support the video tag.
             </video>
             <div className="mt-4 md:mt-0">
-                <h2 className="text-4xl tracking-tight font-extrabold text-darkblue">Let's found more tools and ideas that brings us together.</h2>
-                <p className="font-light text-gray-700 md:text-lg dark:text-gray-400">From now on, find our best products directly on our website. Take a look at our style sheets and imagine your outfits! We've got it all, so you're bound to find what you're looking for.</p>
+                <h2 className="text-4xl tracking-tight font-extrabold text-darkblue">{quote}</h2>
+                <p className="mt-4 font-light text-gray-700 md:text-lg dark:text-gray-400">{author}</p>
+                <button onClick={fetchNewQuote} className="mt-6 rounded-md bg-blueEce px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Generate New Quote</button>
             </div>
         </div>
         <div className="grid grid-rows-3 grid-flow-col gap-4 text-center text-white text-shadow-blue">
           <div className="row-start-2 row-span-2 font-bold bg-blueEce rounded-md p-8 hover:bg-darkblue">
             <Link href="/articles">
-              Our Clothes ➔
+              Our Articles ➔
             </Link>
           </div>
           <div className="row-end-3 row-span-2 font-bold bg-blueEce rounded-md p-8 hover:bg-darkblue">
@@ -51,9 +79,9 @@ export default function Page(){
             </svg>
             <div className="mx-auto text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
               <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Boost your Style.<br />Start using our app today.</h2>
-              <p className="mt-6 text-lg leading-8 text-gray-300">On the Mystore site, you can find our selection of clothes, shoes, jackets and accessories.<br></br>
-                The content is updated regularly, so don't hesitate if you're looking for new items at the best prices!<br></br>
-                The entire MyStore team is available to answer any questions or problems you may have in the contact section.
+              <p className="mt-6 text-lg leading-8 text-gray-300">On the Mystore site, you can find our selection of fashion items, clothes, shoes, jackets, accessories and current trends.
+                Content is updated regularly, so don't hesitate if you're looking to discover new topics! Registration is free and allows you to write your own articles. 
+                The entire MyStore team is at your disposal to answer your questions and problems in the contact section.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                 <Link href="/articles" className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</Link>
