@@ -77,7 +77,7 @@ export default function Page(){
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#0e254a" className="w-20 h-20 mb-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <a href={`/profile/newarticle`}><p className="text-gray-700">Add an Article</p></a>
+                <a href={`/profile/new-article`}><p className="text-gray-700">Add an Article</p></a>
             </div>
         </div>
       </div>

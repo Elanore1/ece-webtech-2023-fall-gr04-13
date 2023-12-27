@@ -2,11 +2,14 @@ import Layout from '../../components/Layout.js'
 import React, { useState , useEffect}  from 'react';
 import { supabaseClient } from '../../components/supabaseClient.js'
 import { useRouter } from 'next/router'
-    
+import {useUser} from '../../components/UserContext.js'
+
 
 export default function Page({id}) {
     const [data, setDatas] = useState([])
+    const {user} = useUser()
     const [comments, setComments] = useState([])
+    const [isUserAuthorized, setisUserAuthorized] = useState(false)
     const [relatedContent, setRelatedContent] = useState([])
     const CryptoJS = require("crypto-js")
     const regex = /<p[^>]*>(.*?)<\/p>/
@@ -22,22 +25,21 @@ export default function Page({id}) {
     useEffect(() => {
         (async () => {
             let { data : article, error } = await supabaseClient.from('articles').select(`*`).eq(`id`, id)
-            console.log(article[0])
             let { data : comments, error1 } = await supabaseClient.from('comments').select(`*`).eq(`article_id`, id)
-            console.log(comments)
             let { data : profiles, error2} = await supabaseClient.from('profiles').select(`*`)
-            console.log(profiles)
             let { data : relatives, error3} = await supabaseClient.from('articles').select(`*`).eq(`tag`,article[0].tag).not(`id`, 'eq', id).limit(4)
-            console.log(relatives)
             setRelatedContent(relatives)
             const datas = bothTable(article[0],profiles)
             const comment = commentTable( comments,profiles)
-            console.log("DATAS",datas)
-            console.log("COMMENT",comment)
             setDatas(datas)
             setComments(comment)
+            if(user){
+                console.log(user?.id === article[0].user_id,user?.id, article[0].user_id)
+                if(user?.id == article[0].user_id)
+                    setisUserAuthorized(true)
+            }
           })()
-    }, [id])
+    },[id,user])
 
     const bothTable = (article, profiles) => {
         const profileAssocie = profiles.find((profile) => profile.id === article.user_id)
@@ -53,7 +55,6 @@ export default function Page({id}) {
     //Comment handle
     const handleInputChange = (e) => {
         const { name, value } = e.target
-        console.log(formData) 
         setFormData({
             ...formData,
             [name]: value,
@@ -61,7 +62,6 @@ export default function Page({id}) {
     
     const PostComment = async (e) => {
         e.preventDefault()
-        console.log(formData)
         if(formData.content.length!=0){
             const {comments, error} = await supabaseClient
             .from('comments')
@@ -86,12 +86,9 @@ export default function Page({id}) {
     const ImgSrc = (htmlContent) => {
         const parser = new DOMParser()
         const doc = parser.parseFromString(htmlContent, 'text/html')
-        console.log("htmlcontent",htmlContent)
         const imageElements = doc.querySelectorAll('img')
-        console.log("imgeleme",imageElements)
         const imageUrls = Array.from(imageElements).map(img => img.getAttribute('src'))
         Array.from(parser.parseFromString(htmlContent, 'text/html').querySelectorAll('img')).map(img => img.getAttribute('src'))
-        console.log("urlimg",imageUrls)
         if(imageUrls == null)
             return 0
         else 
@@ -149,6 +146,20 @@ export default function Page({id}) {
         }
     }
 
+    const handleDeleteArticle = async (e) => {
+        let { data, error} = await supabaseClient
+        .from('articles')
+        .delete()
+        .eq('id', id)
+        router.push(`/articles`)
+    }
+    const handleUpdateArticle = (e) => {
+        router.push({
+            pathname: `/profile/update-article`,
+            query: { id: data?.id },
+        })
+    }
+
     return (
     <Layout>
         <div className="flex justify-between px-4 mx-auto max-w-screen-xl ">
@@ -158,17 +169,31 @@ export default function Page({id}) {
                         <div className="inline-flex items-center mr-3 text-sm text-darkblue dark:text-white">
                             <img className="mr-4 w-16 h-16 rounded-full" src={`https://www.gravatar.com/avatar/${CryptoJS.MD5(data?.profile?.email?.toLowerCase()).toString()}?d=mp`} alt="Jese Leos"/>
                             <div>
-                                <a href="#" rel="author" className="text-xl font-bold text-darkblue dark:text-white">{data?.profile?.username}</a>
+                                <a rel="author" className="text-xl font-bold text-darkblue dark:text-white">{data?.profile?.username}</a>
                                 <p className="text-base text-gray-500 dark:text-gray-400">{data?.profile?.country}</p>
                                 <p className="text-base text-gray-500 dark:text-gray-400">
-                                    <time title="February 8th, 2022">{Date(data?.create_at).toString().slice(0, 15)}</time>
+                                    <time title="February 8th, 2022">{new Date(data?.created_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
                                 </p>
                             </div>
                         </div>
                     </address>
-                    <a href="#" className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                    {isUserAuthorized && (
+                    <>
+                        <div className="mt-6">
+                            <button type="button" id='delete' onClick={handleDeleteArticle} className="inline-flex hover:bg-blueEce items-center py-2.5 px-4 text-base font-bold text-center text-white bg-darkblue rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                                DELETE
+                            </button> 
+                            <button type="button" id='modify' onClick={handleUpdateArticle} className="mx-10 hover:bg-blueEce inline-flex items-center py-2.5 px-4 text-base font-bold text-center text-white bg-darkblue rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                                MODIFY
+                            </button> 
+                        </div>
+                    </>
+                    )}
+                    <div className="mt-6">
+                    <a href={`${data?.tag}`} className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
                         {data?.tag}
                     </a>
+                    </div>
                     <h1 className="mt-6 mb-6 text-3xl font-extrabold leading-tight text-darkblue lg:mb-6 lg:text-4xl dark:text-white">{data?.title}</h1>
                 </header>
                 <div dangerouslySetInnerHTML={{ __html: data?.content }} />
@@ -200,7 +225,6 @@ export default function Page({id}) {
                                 </p>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">{new Date(comment?.created_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' ,hour: 'numeric', minute: 'numeric'})}</p>
                             </div>
-
                             <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1" className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:text-gray-400 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
                                 <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                                     <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
@@ -230,7 +254,7 @@ export default function Page({id}) {
         </div>
         <aside aria-label="Related articles" className="py-8 lg:py-24 dark:bg-gray-800">
         <div className="px-4 mx-auto max-w-screen-xl">
-            <h2 className="mb-8 text-2xl font-bold text-darkblue dark:text-white">Related articles</h2>
+            <h2 className="mb-8 text-2xl font-bold text-darkblue dark:text-white">{relatedContent.length===0 ?  '' : 'Related articles'}</h2>
             <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
                 {relatedContent?.map((RelatedArticle) => ( 
                 <article className="max-w-xs">
