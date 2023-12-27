@@ -14,11 +14,9 @@ function classNames(...classes) {
 }
 
 const products = [
-  { name: 'General Name', description: 'Welcome Page for specified name', href: '/hello?name=John'},
   { name: 'Elanore', description: `See Elanore's informations`, href: '/hello?name=Elanore'},
   { name: 'Noe', description: `See Noe's informations`, href: '/hello?name=Noe'},
   { name: 'Solveig', description: `See Solveig's informations`, href: '/hello?name=Solveig'},
-  { name: 'Error', description: 'No names specified', href: '/hello?test'},
 ]
 
 export default function Header() {
