@@ -8,6 +8,8 @@ import {useUser} from '../components/UserContext.js'
 export default function Profile() {
     const {user} = useUser()
     const [profile, setProfile] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(null)
+    const [chooseImg, setchooseImg] = useState(false)
     const [validData, setValidData] = useState(false)
     const [gravatarUrl, setGravatarUrl] = useState(null)
     const router = useRouter()
@@ -62,6 +64,25 @@ export default function Profile() {
             console.log(error)
         }
         router.push('/profile')
+    }
+
+    //image handle
+    const handleImageUpload = async (event) => {
+        const file = event.target.files[0]
+        console.log(file)
+        if(file){
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                setSelectedImage(reader.result)
+            }
+            setchooseImg(false)
+            reader.readAsDataURL(file)
+        }
+    }
+    const handleImageChange = () => {
+        if(selectedImage){
+            setchooseImg(true)
+        }
     }
 
     useEffect(() => {
@@ -131,7 +152,44 @@ export default function Profile() {
                                 Photo
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
-                                <img src={gravatarUrl} alt="Selected" className="h-12 w-12 object-cover rounded-full" aria-hidden="true"/>
+                                {chooseImg ?(
+                                    <img src={selectedImage} alt="Selected" className="h-12 w-12 object-cover rounded-full" aria-hidden="true"/>
+                                ):(
+                                    <img src={gravatarUrl} alt="Selected" className="h-12 w-12 object-cover rounded-full" aria-hidden="true"/>
+                                )}
+                                <button type="button" onClick={handleImageChange} className="rounded-md bg-blueEce px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-darkblue">
+                                    Change
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-span-full">
+                            <label htmlFor="cover-photo" className="block text-sm font-bold leading-6 text-blueEce">
+                                Cover photo
+                            </label>
+                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                {selectedImage ? (
+                                    <div className="text-center">
+                                        <img src={selectedImage} alt="Selected" className="mx-auto h-32 w-32 object-cover rounded-lg"/>
+                                        <div className="mx-20 flex text-sm leading-6 text-gray-600">
+                                            <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-semibold text-blueEce focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-darkblue">
+                                                <span className="mt-4">Select a new file</span>
+                                                <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/jpeg, image/png, image/jpg" onChange={handleImageUpload}/>
+                                            </label>
+                                        </div>
+                                        <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                ):(
+                                <div className="text-center">
+                                    <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true"/>
+                                    <div className="mx-20 flex text-sm leading-6 text-gray-600">
+                                        <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-semibold text-blueEce focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-darkblue">
+                                            <span className="mt-4">Upload a file</span>
+                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/jpeg, image/png, image/jpg" onChange={handleImageUpload}/>
+                                        </label>
+                                    </div>
+                                    <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -35,7 +35,7 @@ export default function Page(){
 
     }else{
       (async () => {
-        let { data : articles, error } = await supabaseClient.from('articles').select(`*`)
+        let { data : articles, error } = await supabaseClient.from('articles').select(`*`).order('created_at', { ascending: true })
         console.log(articles)
         let { data : profiles, error2 } = await supabaseClient.from('profiles').select(`*`)
         console.log(profiles)

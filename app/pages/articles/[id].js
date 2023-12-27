@@ -200,7 +200,7 @@ export default function Page({id}) {
                 <hr className="mb-4"></hr>
                 <section className="not-format mb-10">
                     <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-lg mb-4 lg:text-3xl font-bold text-darkblue dark:text-white">Discussion (20)</h1>
+                        <h1 className="text-lg mb-4 lg:text-3xl font-bold text-darkblue dark:text-white">Discussion</h1>
                     </div>
                     <form onSubmit={PostComment} className="mb-6">
                         <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
