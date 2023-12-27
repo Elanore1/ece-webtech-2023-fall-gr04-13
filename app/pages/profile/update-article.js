@@ -21,7 +21,7 @@ export default function updateArticle(){
     const CancelArticle = (e) => {
         router.push('/profile/articles')
     }
-    
+
     const [formData, setFormData] = useState({
         title : '',
         tag : '',

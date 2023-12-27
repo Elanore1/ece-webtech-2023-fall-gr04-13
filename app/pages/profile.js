@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Layout from '../components/Layout.js'
 import {useUser} from '../components/UserContext.js'
 import { useRouter } from 'next/router'
-import { supabaseClient } from '../components/supabaseClient'
+import { supabaseClient } from '../components/supabaseClient.js'
 import { useState , useEffect} from 'react'
 
 export default function Page(){

@@ -23,7 +23,7 @@ export default function Page(){
   // http://api.quotable.io/random external api to generate quotes
 
   useEffect(() => {
-    fetch("http://api.quotable.io/random")
+    fetch(process?.env?.NEXT_PUBLIC_RANDOM_QUOTE_URL)
       .then(res => res.json())
       .then(
         (quote) => {
@@ -34,7 +34,7 @@ export default function Page(){
   },[])
 
   let fetchNewQuote = () => {
-    fetch("http://api.quotable.io/random")
+    fetch(process?.env?.NEXT_PUBLIC_RANDOM_QUOTE_URL)
       .then(res => res.json())
       .then(
         (quote) => {
@@ -69,8 +69,8 @@ export default function Page(){
               Your browser does not support the video tag.
             </video>
             <div className="mt-4 md:mt-0">
-                <h2 className="text-4xl tracking-tight font-extrabold text-darkblue">{quote}</h2>
-                <p className="mt-4 font-light text-gray-700 md:text-lg dark:text-gray-400">{author}</p>
+                <h2 className="text-4xl tracking-tight font-extrabold text-darkblue">{quote ?  quote : "If you love life, don't waste time, for time is what life is made up of."}</h2>
+                <p className="mt-4 font-light text-gray-700 md:text-lg dark:text-gray-400">{author ? author : "Bruce Lee"}</p>
                 <button onClick={fetchNewQuote} className="mt-6 rounded-md bg-blueEce px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkblue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Generate New Quote</button>
             </div>
         </div>
@@ -137,4 +137,15 @@ export default function Page(){
       </div>
     </Layout>
   )
+}
+
+export async function getServerSideProps() {
+
+  const res = await fetch("http://api.quotable.io/random")
+  const data = await res.json()
+  data => {
+    setQuote(data.content)
+    setAuthor(data.author)
+  }
+  return { props: { data } }
 }

@@ -4,7 +4,7 @@ import { Disclosure, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {useState, useEffect} from 'react'
-import { supabaseClient } from './/supabaseClient'
+import { supabaseClient } from './supabaseClient'
 
 const LoggedIn = () => {
     const {user} = useUser()

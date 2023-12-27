@@ -15,42 +15,44 @@ We use the JavaScript runtime Node.js for server-side scripting with the package
 > Install [`npx`](https://www.npmjs.com/package/npx) if it is not yet installed.
 - Node.js
 >Install Node.js with n-install:
-```
-sudo apt update
-sudo apt install build-essential git curl
-curl -L https://git.io/n-install | bash
-```
+>```
+>sudo apt update
+>sudo apt install build-essential git curl
+>curl -L https://git.io/n-install | bash
+>```
 
 ## Usage
 
 - Clone this repository, from your local machine :
 
-  ```bash
-  git clone https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13.git
-  ```
+```bash
+git clone https://github.com/Elanore1/ece-webtech-2023-fall-gr04-13.git
+```
 
 -   Install all dependencies (use yarn or npm):
 
-  ```bash
-  npm install
-  ```
+```bash
+npm install
+```
 
 - Run/Build the application :
 
-  ```bash
-  #npm run build
-  npm run dev
-  ```
+```bash
+#npm run build
+npm run dev
+```
 
 - Register your GitHub application, get the `clientID` and `clientSecret` from GitHub and report them to your environment variable on Vercel (or on local). Set up 
 
 Vercel env: 
-  GOTRUE_EXTERNAL_GITHUB_CLIENT_ID=
-  GOTRUE_EXTERNAL_GITHUB_SECRET=
-  GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI=
-  NEXT_PUBLIC_SUPABASE_URL=
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=
+  - GOTRUE_EXTERNAL_GITHUB_CLIENT_ID=
+  - GOTRUE_EXTERNAL_GITHUB_SECRET=
+  - GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI=
 
+  - NEXT_PUBLIC_SUPABASE_URL=
+  - NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+ ![welcome](./readMeImages/welcome.JPG)
 
 ## Deliverables 
 
@@ -66,11 +68,17 @@ Vercel env:
 ## Evaluation
 
 ### Mandatory Tasks
-
+https://www.conventionalcommits.org/en/v1.0.0-beta.2/
 * **Naming convention**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+  * Grade: 1.5/2
+  * Comments: 
+  We implement the task by respecting classic naming convention for our projet.
+  - Each Components begin with a Capital letter
+  - Routing files in pages/ folder
+  - Home page name index.js
+  - Using camelCase to name variables, functions, files and folder names
+  * Task feedback: 
+  This task wasn't very hard. At first we weren't used to it and had to correct certain names several times, but after a while we got the hang of it.
 * **Project structure**
   * Grade: *How many points you think you deserve*
   * Comments: *How did you implement the task*

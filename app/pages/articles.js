@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-import { supabaseClient } from '../components/supabaseClient'
+import { supabaseClient } from '../components/supabaseClient.js'
 import { useRouter } from 'next/router'
 
 export default function Page(){
@@ -15,9 +15,9 @@ export default function Page(){
     const decodedString =  decodeURIComponent(search)
     const wordsArray = decodedString.split(' ')
     const formattedArray = wordsArray.map(word => `'${word}'`)
-    const searchstring = formattedArray.join(' | ')
-    console.log(searchstring)
-    return searchstring
+    const searchString = formattedArray.join(' | ')
+    console.log(searchString)
+    return searchString
   };
 
   useEffect(() => {

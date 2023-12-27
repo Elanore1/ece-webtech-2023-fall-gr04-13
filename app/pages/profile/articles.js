@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../../components/Layout.js'
-import { supabaseClient } from '../../components/supabaseClient'
+import { supabaseClient } from '../../components/supabaseClient.js'
 import {useUser} from '../../components/UserContext.js'
 export default function Page(){
     const {user} = useUser()
